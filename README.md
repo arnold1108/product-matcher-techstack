@@ -7,3 +7,6 @@ This project aims to address these challenges by developing a comprehensive end-
 By leveraging cutting-edge technologies such as streaming platforms, distributed computing frameworks, and machine learning algorithms, we can extract valuable insights from the user activity data in real-time. The data pipeline ensures the efficient processing and transformation of these events, enabling us to persist the enriched data in a highly scalable and reliable database.
 
 The heart of the project lies in the recommender engine, which utilizes state-of-the-art recommendation algorithms and machine learning techniques. By analyzing user behavior, preferences, and product information, the engine generates highly accurate and personalized product recommendations. This empowers e-commerce businesses to deliver tailored shopping experiences, enhance customer satisfaction, and increase conversion rates.
+
+https://www.startdataengineering.com/post/data-engineering-project-for-beginners-stream-edition/#2-sample-project
+https://github.com/josephmachado/beginner_de_project_stream/tree/main
