@@ -44,33 +44,41 @@ services:
     depends_on: 
       - spark-master
 
-  # The relational databases for persisting the processed data 
+  # The relational databases for persisting the processed data, and its GUI 
   postgres:
     image: debezium/postgres:15
     container_name: postgres
     hostname: postgres
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=opiyo
+      - POSTGRES_DB=productmatcher
+      - POSTGRES_PASSWORD=arnold1108
     ports:
       - "0005:0005"
     volumes:
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+  pgadmin:
+    image: dpage/pgadmin4:7.4 
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@opiyo.com 
+      PGADMIN_DEEFAULT_PASSWORD: arnold1108 
+    ports:
+      - "0006:0006"
 
   # The Monitoring Stack. Prometheus for monitoring and grafana for visualizations 
   prometheus:
     image: prom/prometheus:v2.37.1
     container_name: prometheus
     ports:
-      - "0006:0006"
+      - "0007:0007"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
   grafana:
     image: grafana/grafana:8.4.0
     container_name: grafana 
     ports:
-      - "0007:0007"
+      - "0008:0008"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=arnold 
     volumes:
