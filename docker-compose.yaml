@@ -29,6 +29,10 @@ services:
     depends_on:
       - kafka
     environment:
+      KAFKA_CLUSTERS_NAME: local
+      KAFKA_CLUSTERS_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_METRICS_PORT: 9997
+      DYNAMIC_CONFIG_ENABLED: "true"
 
   # The Stream Processor. Apache Spark will be used in this project
   spark-master:
