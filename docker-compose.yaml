@@ -23,7 +23,7 @@ services:
       - zookeeper
   kafka-ui:
     container_name: kafka-ui
-    image: provectuslab/kafka-ui:latest
+    image: provectuslabs/kafka-ui:latest
     ports:
       - 8080:8080
     depends_on:
