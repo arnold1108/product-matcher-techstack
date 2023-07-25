@@ -2,7 +2,7 @@ version: "2.2"
 services:
   # The even-streaming platform consisting of one zookeeper and one broker
   zookeeper:
-    image: confluentinc/cp-zookeeper
+    image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
     ports:
       - "2181:2181"
