@@ -1,11 +1,11 @@
 version: "2.2"
 services:
-  # The even-streaming platform consisting of one zookeeper and one broker 
+  # The even-streaming platform consisting of one zookeeper and one broker
   zookeeper:
     image: docker.io/bitnami/zookeeper:3.8
     container_name: zookeeper
     ports:
-      - "0001:0001"
+      - "2181:2181"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
   kafka:
@@ -22,8 +22,16 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslab/kafka-ui:latest
+    ports:
+      - 8080:8080
+    depends_on:
+      - kafka
+    environment:
 
-  # The Stream Processor. Apache Spark will be used in this project 
+  # The Stream Processor. Apache Spark will be used in this project
   spark-master:
     image: docker.io/bitnami/spark:3.3
     container_name: spark-master
@@ -35,16 +43,16 @@ services:
     image: docker.io/bitnami/spark:3.3
     container_name: spark-worker
     environment:
-      - SPARK_WORKER_CORES=1 
-      - SPARK_WORKER_MEMORY=512m 
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=512m
     ports:
       - "0004:0004"
     volumes:
       - "./spark:/opt/bitnami/data/"
-    depends_on: 
+    depends_on:
       - spark-master
 
-  # The relational databases for persisting the processed data, and its GUI 
+  # The relational databases for persisting the processed data, and its GUI
   postgres:
     image: debezium/postgres:15
     container_name: postgres
@@ -58,15 +66,15 @@ services:
     volumes:
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
   pgadmin:
-    image: dpage/pgadmin4:7.4 
+    image: dpage/pgadmin4:7.4
     container_name: pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@opiyo.com 
-      PGADMIN_DEEFAULT_PASSWORD: arnold1108 
+      PGADMIN_DEFAULT_EMAIL: admin@opiyo.com
+      PGADMIN_DEEFAULT_PASSWORD: arnold1108
     ports:
       - "0006:0006"
 
-  # The Monitoring Stack. Prometheus for monitoring and grafana for visualizations 
+  # The Monitoring Stack. Prometheus for monitoring and grafana for visualizations
   prometheus:
     image: prom/prometheus:v2.37.1
     container_name: prometheus
@@ -76,12 +84,10 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
   grafana:
     image: grafana/grafana:8.4.0
-    container_name: grafana 
+    container_name: grafana
     ports:
       - "0008:0008"
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=arnold 
+      - GF_SECURITY_ADMIN_PASSWORD=arnold
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
-        
-    
