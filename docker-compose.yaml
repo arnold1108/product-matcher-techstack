@@ -12,7 +12,7 @@ services:
     image: docker.io/bitnami/kafka:3.4
     container_name: kafka
     ports:
-      - "0002:0002"
+      - "9092:9092"
     environment:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_ADVERTISED_LISTENERS=INSIDE://:9092,OUTSIDE://:9093
