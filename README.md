@@ -10,3 +10,4 @@ The heart of the project lies in the recommender engine, which utilizes state-of
 
 https://www.startdataengineering.com/post/data-engineering-project-for-beginners-stream-edition/#2-sample-project
 https://github.com/josephmachado/beginner_de_project_stream/tree/main
+https://github.com/mdipietro09/DataScience_ArtificialIntelligence_Utils/blob/master/machine_learning/example_recommendation.ipynb
