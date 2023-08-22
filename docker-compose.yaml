@@ -47,7 +47,7 @@ services:
     volumes:
       - "./spark:/opt/bitnami/data/"
   spark-worker:
-    image: docker.io/bitnami/spark:3.3S
+    image: docker.io/bitnami/spark:3.3
     container_name: spark-worker
     environment:
       - SPARK_WORKER_CORES=1
