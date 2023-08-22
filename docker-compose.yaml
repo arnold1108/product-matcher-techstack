@@ -82,19 +82,19 @@ services:
       - "0006:0006"
 
   # The Monitoring Stack. Prometheus for monitoring and grafana for visualizations
-  prometheus:
-    image: prom/prometheus:v2.37.1
-    container_name: prometheus
-    ports:
-      - "0007:0007"
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-  grafana:
-    image: grafana/grafana:8.4.0
-    container_name: grafana
-    ports:
-      - "0008:0008"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=arnold
-    volumes:
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
+  # prometheus:
+  #   image: prom/prometheus:v2.37.1
+  #   container_name: prometheus
+  #   ports:
+  #     - "0007:0007"
+  #   volumes:
+  #     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  # grafana:
+  #   image: grafana/grafana:8.4.0
+  #   container_name: grafana
+  #   ports:
+  #     - "0008:0008"
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=arnold
+  #   volumes:
+  #     - ./grafana/provisioning/:/etc/grafana/provisioning/
