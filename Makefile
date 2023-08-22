@@ -5,4 +5,4 @@ down:
 	docker compose down
 install:
 	pip install --upgrade pip && \
-		-r requirements.txt 
+		pip install -r requirements.txt 
