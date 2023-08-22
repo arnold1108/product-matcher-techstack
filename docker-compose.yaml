@@ -1,63 +1,63 @@
 version: "2.2"
 services:
   # The even-streaming platform consisting of one zookeeper and one broker
-  # zookeeper:
-  #   image: confluentinc/cp-zookeeper:latest
-  #   container_name: zookeeper
-  #   ports:
-  #     - "2181:2181"
-  #   environment:
-  #     ZOOKEEPER_CLIENT_PORT: 2181
-  #     ZOOKEEPER_TICK_TIME: 2000
-  # kafka:
-  #   image: confluentinc/cp-kafka:latest
-  #   container_name: kafka
-  #   ports:
-  #     - "9092:9092"
-  #     - "9997:9997"
-  #   environment:
-  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
-  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT, PLAINTEXT_HOST:PLAINTEXT
-  #   depends_on:
-  #     - zookeeper
-  #   volumes:
-  #     - ./scripts/update_run.sh:/tmp/update_run.sh
-  #   command: 'bash -c ''if [ ! -f /tmp/update_run.sh ]; then echo "ERROR: Did you forget the update             _run.sh file that came with this docker-compose.yml file?" && exit 1 ; else /tmp/updat              e_run.sh && /etc/confluent/docker/run ; fi'''
-  # kafka-ui:
-  #   container_name: kafka-ui
-  #   image: provectuslabs/kafka-ui:latest
-  #   ports:
-  #     - 8080:8080
-  #   depends_on:
-  #     - kafka
-  #   environment:
-  #     KAFKA_CLUSTERS_NAME: local
-  #     KAFKA_CLUSTERS_BOOTSTRAPSERVERS: kafka:29092
-  #     KAFKA_CLUSTERS_METRICS_PORT: 9997
-  #     DYNAMIC_CONFIG_ENABLED: "true"
-  #
-  # The Stream Processor. Apache Spark will be used in this project
-  # spark-master:
-  #   image: docker.io/bitnami/spark:3.3
-  #   container_name: spark-master
-  #   ports:
-  #     - "0003:0003"
-  #   volumes:
-  #     - "./spark:/opt/bitnami/data/"
-  # spark-worker:
-  #   image: docker.io/bitnami/spark:3.3
-  #   container_name: spark-worker
-  #   environment:
-  #     - SPARK_WORKER_CORES=1
-  #     - SPARK_WORKER_MEMORY=512m
-  #   ports:
-  #     - "0004:0004"
-  #   volumes:
-  #     - "./spark:/opt/bitnami/data/"
-  #   depends_on:
-  #     - spark-master
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "9997:9997"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT, PLAINTEXT_HOST:PLAINTEXT
+    depends_on:
+      - zookeeper
+    volumes:
+      - ./scripts/update_run.sh:/tmp/update_run.sh
+    command: 'bash -c ''if [ ! -f /tmp/update_run.sh ]; then echo "ERROR: Did you forget the update             _run.sh file that came with this docker-compose.yml file?" && exit 1 ; else /tmp/updat              e_run.sh && /etc/confluent/docker/run ; fi'''
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8080:8080
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_NAME: local
+      KAFKA_CLUSTERS_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_METRICS_PORT: 9997
+      DYNAMIC_CONFIG_ENABLED: "true"
+
+  # # The Stream Processor. Apache Spark will be used in this project
+  spark-master:
+    image: docker.io/bitnami/spark:3.3
+    container_name: spark-master
+    ports:
+      - "0003:0003"
+    volumes:
+      - "./spark:/opt/bitnami/data/"
+  spark-worker:
+    image: docker.io/bitnami/spark:3.3S
+    container_name: spark-worker
+    environment:
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=512m
+    ports:
+      - "0004:0004"
+    volumes:
+      - "./spark:/opt/bitnami/data/"
+    depends_on:
+      - spark-master
 
   # The relational databases for persisting the processed data, and its GUI
   postgres:
@@ -82,19 +82,19 @@ services:
       - "0006:0006"
 
   # The Monitoring Stack. Prometheus for monitoring and grafana for visualizations
-  # prometheus:
-  #   image: prom/prometheus:v2.37.1
-  #   container_name: prometheus
-  #   ports:
-  #     - "0007:0007"
-  #   volumes:
-  #     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-  # grafana:
-  #   image: grafana/grafana:8.4.0
-  #   container_name: grafana
-  #   ports:
-  #     - "0008:0008"
-  #   environment:
-  #     - GF_SECURITY_ADMIN_PASSWORD=arnold
-  #   volumes:
-  #     - ./grafana/provisioning/:/etc/grafana/provisioning/
+  prometheus:
+    image: prom/prometheus:v2.37.1
+    container_name: prometheus
+    ports:
+      - "0007:0007"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  grafana:
+    image: grafana/grafana:8.4.0
+    container_name: grafana
+    ports:
+      - "0008:0008"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=arnold
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
