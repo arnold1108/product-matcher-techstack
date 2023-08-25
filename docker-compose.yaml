@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   postgresql:
-    container_name: postgres_container
+    container_name: postgresql
     image: postgres
     restart: always
     environment:
@@ -15,8 +15,8 @@ services:
       - db-data:/var/lib/postgresql/data
 
   pgadmin:
-    container_name: pgadmin4_container
-    image: dpage/pgadmin4:5.5
+    container_name: pgadmin
+    image: dpage/pgadmin4:7.6
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: "opiyo@admin.com"
