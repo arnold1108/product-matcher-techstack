@@ -6,8 +6,8 @@ services:
     restart: always
     environment:
       POSTGRES_DB: product_matcher
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: adventure
+      POSTGRES_PASSWORD: opiyo123
       PGDATA: /var/lib/postgresql/data
     ports:
       - "5432:5432"
