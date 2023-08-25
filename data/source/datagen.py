@@ -12,4 +12,5 @@ conn = psycopg2.connect(
     password="opiyo123",
 )
 
+print("Connected to the PostgreSQL database!")
 # Generate and insert fake user data
