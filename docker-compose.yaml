@@ -76,11 +76,14 @@ services:
   pgadmin:
     image: dpage/pgadmin4:7.4
     container_name: pgadmin
+    restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@opiyo.com
       PGADMIN_DEEFAULT_PASSWORD: arnold1108
     ports:
       - "0006:0006"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmim
 
   # The Monitoring Stack. Prometheus for monitoring and grafana for visualizations
   # prometheus:
@@ -101,5 +104,5 @@ services:
   #     - ./grafana/provisioning/:/etc/grafana/provisioning/
 volumes:
   db-data:
-  pdadmin-data:
+  pgadmin-data:
 
