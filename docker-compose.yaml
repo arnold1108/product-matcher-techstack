@@ -72,7 +72,7 @@ services:
     ports:
       - "5438:5432"
     volumes:
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db-data:/var/lib/postgresql/data
   pgadmin:
     image: dpage/pgadmin4:7.4
     container_name: pgadmin
