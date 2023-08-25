@@ -81,7 +81,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@opiyo.com
       PGADMIN_DEEFAULT_PASSWORD: arnold1108
     ports:
-      - "0006:0006"
+      - "8081:80"
     volumes:
       - pgadmin-data:/var/lib/pgadmim
 
