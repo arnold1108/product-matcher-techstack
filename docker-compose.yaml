@@ -99,3 +99,7 @@ services:
   #     - GF_SECURITY_ADMIN_PASSWORD=arnold
   #   volumes:
   #     - ./grafana/provisioning/:/etc/grafana/provisioning/
+volumes:
+  db-data:
+  pdadmin-data:
+
