@@ -45,6 +45,7 @@ services:
     depends_on:
       - zookeeper
     environment:
+      KAFKA_CLUSTER_NAME: adventure
       KAFKA_BROKER_ID: 1 
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181" 
       KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092,HOST://localhost:29092"
@@ -61,7 +62,7 @@ services:
       - zookeeper
       - kafka
     environment:
-      KAFKA_CLUSTER_NAME: local 
+      KAFKA_CLUSTER_NAME: adventure
       KAFKA_CLUSTER_BOOTSTRAPSERVERS: kafka:29092
       DYNAMIC_CONFIG_ENABLED: "true"
     ports:
