@@ -42,7 +42,7 @@ services:
     image: bitnami/kafka:3.4.1
     restart: always
     depends_on:
-        zookeeper
+      - zookeeper
     environment:
       KAFKA_BROKER_ID: 1 
       KAFKA_ZOOKEEPER_CONNECT: 2181 
