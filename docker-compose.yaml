@@ -47,6 +47,14 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092 
     ports:
       - "29092:29092"
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:cca2c9699755c2128bb88cf8920c9ed4414dbd58
+    restart: always
+    environment:
+    ports:
+        - value
 volumes:  
   postgresql_data:
   pgadmin-data:
