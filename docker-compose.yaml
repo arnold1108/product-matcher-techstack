@@ -65,7 +65,7 @@ services:
       KAFKA_CLUSTER_BOOTSTRAPSERVERS: kafka:29092
       DYNAMIC_CONFIG_ENABLED: "true"
     ports:
-      - "8081:8081"
+      - "8081:8080"
 volumes:  
   postgresql_data:
   pgadmin-data:
