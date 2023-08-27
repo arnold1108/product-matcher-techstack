@@ -54,7 +54,7 @@ services:
     restart: always
     environment:
     ports:
-        - value
+      - "8081:8081"
 volumes:  
   postgresql_data:
   pgadmin-data:
