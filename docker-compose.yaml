@@ -53,6 +53,9 @@ services:
     image: provectuslabs/kafka-ui:cca2c9699755c2128bb88cf8920c9ed4414dbd58
     restart: always
     environment:
+      KAFKA_CLUSTER_NAME: local 
+      KAFKA_CLUSTER_BOOTSTRAPSERVERS: kafka:29092
+      DYNAMIC_CONFIG_ENABLED: "true"
     ports:
       - "8081:8081"
 volumes:  
