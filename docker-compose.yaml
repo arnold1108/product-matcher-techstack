@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+  # PostgresQL db and pgadmin interactive dashboard
   postgresql:
     container_name: postgresql
     image: bitnami/postgresql:15.4.0
@@ -25,6 +26,27 @@ services:
       - "8080:80"
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+
+  # Standalone Kafka Cluster for streaming events 
+  zookeeper:
+    container_name: zookeeper
+    image: 
+    restart: always
+    environment: 
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports: 
+      - "2181:2181"
+
+  kafka:
+    container_name: kafka 
+    image:
+    restart: always
+    environment:
+      KAFKA_BROKER_ID: 1 
+      KAFKA_ZOOKEEPER_CONNECT: 2181 
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092 
+    ports:
+      - "29092:29092"
 volumes:  
   postgresql_data:
   pgadmin-data:
