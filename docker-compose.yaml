@@ -62,8 +62,8 @@ services:
       - zookeeper
       - kafka
     environment:
-      KAFKA_CLUSTERS_0_NAME: adventure
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_NAME: kafka
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
       DYNAMIC_CONFIG_ENABLED: "true"
     ports:
       - "8081:8080"
