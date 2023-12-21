@@ -8,8 +8,11 @@ import com.adventure.apis.store.Category
 import com.adventure.apis.store.Category.StoreCategory
 import com.adventure.apis.store.Commands.AddStock
 import com.adventure.apis.store.Commands.CreateStore
+import com.adventure.apis.store.QueryResults
+import com.adventure.apis.store.QueryResults.ManageStoreQueryResults
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,18 +25,18 @@ import java.util.UUID
 class SellerController(
     private val command: ReactorCommandGateway
 ) {
-    @PostMapping("/seller/accounts/create")
+    @PostMapping("/seller/account/create")
     fun createSellerAccount(
         @RequestBody
         firstName: String,
-        lastname: String,
+        lastName: String,
         emailAddress: String,
         gender: Sex
     ): Mono<ResponseEntity<String>> {
         val sellerAccountCreateRequest = CreateSellerAccount(
             sellerId = UUID.randomUUID(),
             firstName = firstName,
-            lastName = lastname,
+            lastName = lastName,
             email = emailAddress,
             gender = gender
         )
@@ -62,7 +65,7 @@ class SellerController(
         productDescription: String,
         price: Double
     ): Mono<ResponseEntity<String>> {
-        val adStockRequest = AddStock(
+        val addStockRequest = AddStock(
             storeId = storeId,
             productId = UUID.randomUUID(),
             productName = productName,
@@ -70,10 +73,10 @@ class SellerController(
             productDescription = productDescription,
             price = price
         )
-        return command.send(adStockRequest)
+        return command.send(addStockRequest)
     }
     @GetMapping("/seller/store/{storeId}/manage")
-    fun manageStore(@PathVariable storeId: UUID) {
+    fun manageStore(@PathVariable storeId: UUID): Mono<ResponseEntity<ManageStoreQueryResults>> {
         TODO()
     }
 }
