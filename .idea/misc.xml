@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/core/accounts/pom.xml" />
         <option value="$PROJECT_DIR$/core/cart/pom.xml" />
         <option value="$PROJECT_DIR$/core/marketplace/pom.xml" />
+        <option value="$PROJECT_DIR$/core/store/pom.xml" />
       </list>
     </option>
   </component>
