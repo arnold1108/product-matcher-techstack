@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 import java.util.*
@@ -23,7 +24,8 @@ import java.util.*
 class BuyerController(
     private val command: ReactorCommandGateway
 ) {
-    @PostMapping("/buyer/account/create")
+    @RequestMapping("/buyer")
+    @PostMapping("/account/create")
     fun createBuyerAccount(
         @RequestBody
         firstName: String,
@@ -43,12 +45,12 @@ class BuyerController(
             .thenReturn(ResponseEntity.ok("Welcome to Soko!"))
     }
 
-    @GetMapping("/buyer/{buyerId}/explore")
+    @GetMapping("/{buyerId}/explore")
     fun exploreProducts(@PathVariable buyerId: UUID): Mono<ResponseEntity<ExploreProductsQueryResult>> {
         TODO()
     }
 
-    @PostMapping("/buyer/{buyerId}/explore/{productId}/like")
+    @PostMapping("/{buyerId}/explore/{productId}/like")
     fun likeProduct(
         @PathVariable productId: UUID,
         @PathVariable buyerId: UUID
@@ -62,12 +64,12 @@ class BuyerController(
             .thenReturn(ResponseEntity.ok("Product Liked"))
     }
 
-    @GetMapping("/buyer/{buyerId}/cart")
+    @GetMapping("/{buyerId}/cart")
     fun viewCart(@PathVariable buyerId: UUID): Mono<ResponseEntity<ViewCartQueryResult>> {
         TODO()
     }
 
-    @PostMapping("/buyer/{buyerId}/cart/add/{productId}")
+    @PostMapping("/{buyerId}/cart/add/{productId}")
     fun addProductToCart(
         @PathVariable buyerId: UUID,
         @PathVariable productId: UUID,
@@ -83,7 +85,7 @@ class BuyerController(
             .thenReturn(ResponseEntity.ok("Product added to cart"))
     }
 
-    @DeleteMapping("/buyer/{buyerId}/cart/remove/{productId}")
+    @DeleteMapping("/{buyerId}/cart/remove/{productId}")
     fun removeProductFromCart(
         @PathVariable productId: UUID,
         @PathVariable buyerId: UUID
@@ -97,7 +99,7 @@ class BuyerController(
             .thenReturn(ResponseEntity.ok("Product removed from cart"))
     }
 
-    @PostMapping("/buyer/{buyerId}/cart/checkout")
+    @PostMapping("/{buyerId}/cart/checkout")
     fun checkout(@PathVariable buyerId: UUID): Mono<ResponseEntity<String>> {
         val checkoutCommand = Checkout(
             buyerId = buyerId
