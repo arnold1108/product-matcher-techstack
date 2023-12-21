@@ -18,12 +18,23 @@
 		<kotlin.version>1.9.20</kotlin.version>
 		<axon-starter.version>4.9.1</axon-starter.version>
 		<axon-base.version>4.9.0</axon-base.version>
+		<springfox.version>3.0.0</springfox.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.adventure</groupId>
 			<artifactId>apis</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.axonframework</groupId>

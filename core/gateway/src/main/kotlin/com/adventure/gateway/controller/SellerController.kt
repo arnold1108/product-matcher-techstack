@@ -40,10 +40,11 @@ class SellerController(
             .thenReturn(ResponseEntity.ok("Welcome to Soko!"))
     }
 
-    @PostMapping("/seller/store/create")
+    @PostMapping("/seller/{sellerId}/store/create")
     fun createStore(
-        @RequestBody
+        @PathVariable
         sellerId: UUID,
+        @RequestBody
         category: StoreCategory
     ): Mono<ResponseEntity<String>> {
         val createStoreCommand = CreateStore(
