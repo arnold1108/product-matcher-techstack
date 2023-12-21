@@ -38,7 +38,9 @@ class BuyerController(
             email = emailAddress,
             gender = gender
         )
-        return command.send(createBuyerAccountCommand)
+        return command.send<ResponseEntity<String>?>(createBuyerAccountCommand)
+            .then()
+            .thenReturn(ResponseEntity.ok("Welcome to Soko!"))
     }
 
     @GetMapping("/buyer/{buyerId}/explore")
@@ -55,7 +57,9 @@ class BuyerController(
             buyerId = buyerId,
             productId = productId
         )
-        return command.send(likeProductCommand)
+        return command.send<ResponseEntity<String>?>(likeProductCommand)
+            .then()
+            .thenReturn(ResponseEntity.ok("Product Liked"))
     }
 
     @GetMapping("/buyer/{buyerId}/cart")
@@ -74,7 +78,9 @@ class BuyerController(
             productId = productId,
             quantity = quantity
         )
-        return command.send(addProductToCartCommand)
+        return command.send<ResponseEntity<String>>(addProductToCartCommand)
+            .then()
+            .thenReturn(ResponseEntity.ok("Product added to cart"))
     }
 
     @DeleteMapping("/buyer/{buyerId}/cart/remove/{productId}")
@@ -86,7 +92,9 @@ class BuyerController(
             productId = productId,
             buyerId = buyerId
         )
-        return command.send(removeProductFromCartCommand)
+        return command.send<ResponseEntity<String>>(removeProductFromCartCommand)
+            .then()
+            .thenReturn(ResponseEntity.ok("Product removed from cart"))
     }
 
     @PostMapping("/buyer/{buyerId}/cart/checkout")
@@ -94,7 +102,9 @@ class BuyerController(
         val checkoutCommand = Checkout(
             buyerId = buyerId
         )
-        return command.send(checkoutCommand)
+        return command.send<ResponseEntity<String>>(checkoutCommand)
+            .then()
+            .thenReturn(ResponseEntity.ok("Enjoy!"))
     }
 
 }
