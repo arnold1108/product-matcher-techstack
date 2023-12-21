@@ -10,6 +10,7 @@
         <module name="apis" />
         <module name="gateway" />
         <module name="notifications" />
+        <module name="cart" />
       </profile>
     </annotationProcessing>
   </component>
@@ -17,6 +18,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="accounts" options="-parameters" />
       <module name="apis" options="-parameters" />
+      <module name="cart" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="notifications" options="-parameters" />
     </option>
