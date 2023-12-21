@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="accounts" />
         <module name="apis" />
+        <module name="marketplace" />
         <module name="gateway" />
         <module name="notifications" />
         <module name="cart" />
@@ -20,6 +21,7 @@
       <module name="apis" options="-parameters" />
       <module name="cart" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="marketplace" options="-parameters" />
       <module name="notifications" options="-parameters" />
     </option>
   </component>
