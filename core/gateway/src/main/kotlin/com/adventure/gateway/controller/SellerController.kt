@@ -35,7 +35,7 @@ class SellerController(
             email = emailAddress,
             gender = gender
         )
-        return command.send<ResponseEntity<String>?>(createSellerAccountCommand)
+        return command.send<ResponseEntity<String>>(createSellerAccountCommand)
             .then()
             .thenReturn(ResponseEntity.ok("Welcome to Soko!"))
     }
@@ -51,7 +51,7 @@ class SellerController(
             sellerId = sellerId,
             category = category
         )
-        return command.send<ResponseEntity<String>?>(createStoreCommand)
+        return command.send<ResponseEntity<String>>(createStoreCommand)
             .then()
             .thenReturn(ResponseEntity.ok("Successfully Created your store"))
     }
@@ -74,7 +74,7 @@ class SellerController(
             productDescription = productDescription,
             price = price
         )
-        return command.send<ResponseEntity<String>?>(addStockCommand)
+        return command.send<ResponseEntity<String>>(addStockCommand)
             .then()
             .thenReturn(ResponseEntity.ok("Product Added"))
     }
