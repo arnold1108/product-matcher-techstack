@@ -10,4 +10,9 @@ class CommandIngest {
     fun handle(command: CreateSellerAccount){
         TODO()
     }
+
+    @CommandHandler
+    fun handle(command: CreateBuyerAccount) {
+        TODO()
+    }
 }
