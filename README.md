@@ -12,5 +12,34 @@ https://www.startdataengineering.com/post/data-engineering-project-for-beginners
 https://github.com/josephmachado/beginner_de_project_stream/tree/main
 https://github.com/mdipietro09/DataScience_ArtificialIntelligence_Utils/blob/master/machine_learning/example_recommendation.ipynb
 
+Benefits
+Recommend people products based on collaborative filtering.
+Sellers can create stalls and upload their stock. The recommender engine will match their products to their potential buyers.
+
+Roles
+There are two major roles
+The Seller - They should access the recommended image through the marketplace
+The buyer - They should be able to create stalls and upload their stock
+
+Buyer Functionality
+Create account -> Explore -> Select items -> Add to Cart -> Checkout.
+
+Seller Functionality
+Create account -> Create Store -> Add Stock -> Receive Notification when their product gets selected.
+
+Microservices
+Accounts Service
+This will handle the account creation transaction for both the seller and the buyer.
+Explore
+This will house the recommender engine. It will also be responsible for selecting the items they have liked.
+Cart
+This will be responsible for selecting items and adding them to the cart, and checking out
+Store
+This will be responsible for creating and managing the store, including the stocks inside.
+Notification
+This will be responsible for sending notifications to the seller when the buyer gets their item.
+API Gateway
+This will be responsible for routing the apis
+
 
 ![High Level Architecture](data/soko.png)
