@@ -5,23 +5,23 @@ import java.util.UUID
 
 class Commands {
     data class CreateBuyerAccount(
-        val accountId: UUID,
+        val buyerId: UUID,
         val firstName: String,
         val lastName: String,
         val email: String,
         val gender: Sex
     )
     data class DeleteBuyerAccount(
-        val accountId: UUID
+        val buyerId: UUID
     )
     data class CreateSellerAccount(
-        val accountId: UUID,
+        val sellerId: UUID,
         val firstName: String,
         val lastName: String,
         val email: String,
         val gender: Sex
     )
     data class DeleteSellerAccount(
-        val accountId: UUID
+        val sellerId: UUID
     )
 }

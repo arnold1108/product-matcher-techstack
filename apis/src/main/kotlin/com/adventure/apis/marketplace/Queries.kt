@@ -4,6 +4,6 @@ import java.util.UUID
 
 class Queries {
     data class ExploreProducts(
-        val accountId: UUID
+        val buyerId: UUID
     )
 }

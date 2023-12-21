@@ -4,7 +4,7 @@ import java.util.*
 
 class Commands {
     data class LikeProduct(
-        val accountId: UUID,
+        val buyerId: UUID,
         val productId: UUID
     )
 }
