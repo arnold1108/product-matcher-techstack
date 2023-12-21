@@ -35,7 +35,9 @@ class SellerController(
             email = emailAddress,
             gender = gender
         )
-        return command.send(createSellerAccountCommand)
+        return command.send<ResponseEntity<String>?>(createSellerAccountCommand)
+            .then()
+            .thenReturn(ResponseEntity.ok("Welcome to Soko!"))
     }
 
     @PostMapping("/seller/store/create")
@@ -49,7 +51,9 @@ class SellerController(
             sellerId = sellerId,
             category = category
         )
-        return command.send(createStoreCommand)
+        return command.send<ResponseEntity<String>?>(createStoreCommand)
+            .then()
+            .thenReturn(ResponseEntity.ok("Successfully Created your store"))
     }
 
     @PostMapping("/seller/store/{storeId}/stock/add")
@@ -70,7 +74,9 @@ class SellerController(
             productDescription = productDescription,
             price = price
         )
-        return command.send(addStockCommand)
+        return command.send<ResponseEntity<String>?>(addStockCommand)
+            .then()
+            .thenReturn(ResponseEntity.ok("Product Added"))
     }
 
     @GetMapping("/seller/store/{storeId}/manage")
