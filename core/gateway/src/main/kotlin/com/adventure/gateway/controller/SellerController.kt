@@ -6,41 +6,44 @@ import com.adventure.apis.store.Category.StoreCategory
 import com.adventure.apis.store.Commands.AddStock
 import com.adventure.apis.store.Commands.CreateStore
 import com.adventure.apis.store.QueryResults.ManageStoreQueryResults
+import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 import java.util.UUID
 
 @RestController
+@RequestMapping("/seller")
 class SellerController(
     private val command: ReactorCommandGateway
 ) {
-    @PostMapping("/seller/account/create")
+    @PostMapping("/account/create")
     fun createSellerAccount(
         @RequestBody
         firstName: String,
-        lastName: String,
         emailAddress: String,
-        gender: Sex
+        lastName: String,
+        gender: Sex,
     ): Mono<ResponseEntity<String>> {
         val createSellerAccountCommand = CreateSellerAccount(
             sellerId = UUID.randomUUID(),
-            firstName = firstName,
-            lastName = lastName,
-            email = emailAddress,
-            gender = gender
+            firstName,
+            lastName,
+            emailAddress,
+            gender
         )
         return command.send<ResponseEntity<String>>(createSellerAccountCommand)
             .then()
             .thenReturn(ResponseEntity.ok("Welcome to Soko!"))
     }
 
-    @PostMapping("/seller/{sellerId}/store/create")
+    @PostMapping("/{sellerId}/store/create")
     fun createStore(
         @PathVariable
         sellerId: UUID,
@@ -57,7 +60,7 @@ class SellerController(
             .thenReturn(ResponseEntity.ok("Successfully Created your store"))
     }
 
-    @PostMapping("/seller/store/{storeId}/stock/add")
+    @PostMapping("/store/{storeId}/stock/add")
     fun addStock(
         @PathVariable
         storeId: UUID,
@@ -80,7 +83,7 @@ class SellerController(
             .thenReturn(ResponseEntity.ok("Product Added"))
     }
 
-    @GetMapping("/seller/store/{storeId}/manage")
+    @GetMapping("/store/{storeId}/manage")
     fun manageStore(@PathVariable storeId: UUID): Mono<ResponseEntity<ManageStoreQueryResults>> {
         TODO()
     }
