@@ -1,6 +1,7 @@
 package com.adventure.gateway.controller
 
 import com.adventure.apis.accounts.Commands.CreateBuyerAccount
+import com.adventure.apis.accounts.Commands.UserDetails
 import com.adventure.apis.accounts.State.Sex
 import com.adventure.apis.cart.Commands
 import com.adventure.apis.cart.Commands.*
@@ -26,19 +27,10 @@ class BuyerController(
 ) {
     @RequestMapping("/buyer")
     @PostMapping("/account/create")
-    fun createBuyerAccount(
-        @RequestBody
-        firstName: String,
-        lastName: String,
-        emailAddress: String,
-        gender: Sex
-    ): Mono<ResponseEntity<String>> {
+    fun createBuyerAccount( @RequestBody details: UserDetails): Mono<ResponseEntity<String>> {
         val createBuyerAccountCommand = CreateBuyerAccount(
             buyerId = UUID.randomUUID(),
-            firstName = firstName,
-            lastName = lastName,
-            email = emailAddress,
-            gender = gender
+            details
         )
         return command.send<ResponseEntity<String>?>(createBuyerAccountCommand)
             .then()

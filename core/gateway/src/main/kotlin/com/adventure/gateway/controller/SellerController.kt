@@ -40,10 +40,8 @@ class SellerController(
 
     @PostMapping("/{sellerId}/store/create")
     fun createStore(
-        @PathVariable
-        sellerId: UUID,
-        @RequestBody
-        category: StoreCategory
+        @PathVariable sellerId: UUID,
+        @RequestBody category: String
     ): Mono<ResponseEntity<String>> {
         val createStoreCommand = CreateStore(
             storeId = UUID.randomUUID(),
@@ -53,6 +51,10 @@ class SellerController(
         return command.send<ResponseEntity<String>>(createStoreCommand)
             .then()
             .thenReturn(ResponseEntity.ok("Successfully Created your store"))
+    }
+    @CommandHandler
+    fun handle(command: CreateStore){
+        println("Received command: $command")
     }
 
     @PostMapping("/store/{storeId}/stock/add")
