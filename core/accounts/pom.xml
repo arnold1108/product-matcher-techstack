@@ -19,7 +19,22 @@
 		<axon-starter.version>4.9.1</axon-starter.version>
 		<axon-base.version>4.9.0</axon-base.version>
 	</properties>
-	<dependencies>
+	<dependencies><dependency>
+			<groupId>org.axonframework</groupId>
+			<artifactId>axon-spring-boot-starter</artifactId>
+			<version>${axon-starter.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>io.grpc</groupId>
+					<artifactId>grpc-netty</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.axonframework.extensions.reactor</groupId>
+			<artifactId>axon-reactor-spring-boot-starter</artifactId>
+			<version>${axon-base.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.adventure</groupId>
 			<artifactId>apis</artifactId>

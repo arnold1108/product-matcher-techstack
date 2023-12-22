@@ -1,7 +1,7 @@
 package com.adventure.gateway.controller
 
 import com.adventure.apis.accounts.Commands.CreateSellerAccount
-import com.adventure.apis.accounts.State.Sex
+import com.adventure.apis.accounts.Commands.UserDetails
 import com.adventure.apis.store.Category.StoreCategory
 import com.adventure.apis.store.Commands.AddStock
 import com.adventure.apis.store.Commands.CreateStore
@@ -24,23 +24,18 @@ class SellerController(
     private val command: ReactorCommandGateway
 ) {
     @PostMapping("/account/create")
-    fun createSellerAccount(
-        @RequestBody
-        firstName: String,
-        emailAddress: String,
-        lastName: String,
-        gender: Sex,
-    ): Mono<ResponseEntity<String>> {
+    fun createSellerAccount(@RequestBody details: UserDetails): Mono<ResponseEntity<String>> {
         val createSellerAccountCommand = CreateSellerAccount(
             sellerId = UUID.randomUUID(),
-            firstName,
-            lastName,
-            emailAddress,
-            gender
+            details
         )
         return command.send<ResponseEntity<String>>(createSellerAccountCommand)
             .then()
             .thenReturn(ResponseEntity.ok("Welcome to Soko!"))
+    }
+    @CommandHandler
+    fun handle(command: CreateSellerAccount){
+        println("Received command: $command")
     }
 
     @PostMapping("/{sellerId}/store/create")
