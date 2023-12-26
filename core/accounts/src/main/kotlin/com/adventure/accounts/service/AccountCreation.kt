@@ -1,7 +1,6 @@
 package com.adventure.accounts.service
 
-import com.adventure.accounts.respository.UserAccountRepository
-import com.adventure.apis.accounts.Commands
+import com.adventure.accounts.respository.SellerRepository
 import com.adventure.apis.accounts.Commands.*
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
@@ -9,7 +8,7 @@ import java.util.*
 
 @Service
 class AccountCreation(
-    private val userAccountRepository: UserAccountRepository
+    private val userAccountRepository: SellerRepository
 ) {
     fun addBuyer(buyerId: UUID, details: UserDetails): Mono<String> {
         val buyerDetails = UserDetails(
