@@ -11,43 +11,50 @@ import com.adventure.accounts.service.AccountCreation
 import reactor.core.publisher.Mono
 
 class Receptionist(
-    private val accountCreator: AccountCreation,
-    private val context: ActorContext<Tasks>
+    private val context: ActorContext<Tasks>,
+    private val accountCreator: AccountCreation
 ): AbstractBehavior<Tasks>(context) {
     companion object {
-        fun create(): Behavior<Tasks> {
+        fun create(accountCreator: AccountCreation): Behavior<Tasks> {
             return Behaviors.setup { context ->
-                Receptionist(accountCreator, context)
+                Receptionist(context, accountCreator)
             }
         }
     }
     override fun createReceive(): Receive<Tasks> {
         return newReceiveBuilder()
             .onMessage(AddBuyer::class.java) { task ->
-                accountCreator.addBuyer(task.command.buyerId,
-                    task.command.details
-                ).subscribe { validation ->
+                accountCreator.addBuyer(task.command.buyerId, task.command.details)
+                    .doOnSuccess { validation ->
+                        context.log.info(validation)
                         task.replyTo.tell(
                             BuyerAddedValidation(
-                            task.messageId,
-                            Mono.just(validation)
-                        )
+                                task.messageId,
+                                Mono.just(validation)
+                             )
                         )
                     }
+                    .doOnError { error ->
+                        context.log.error("Unable to handle message: ${error.message}")
+                    }
+                    .subscribe()
                 Behaviors.same()
             }
             .onMessage(AddSeller::class.java) {task ->
-                accountCreator.addSeller(task.command.sellerId,
-                    task.command.details
-                )
-                    .subscribe { validation ->
+                accountCreator.addSeller(task.command.sellerId, task.command.details)
+                    .doOnSuccess { validation ->
+                        context.log.info(validation)
                         task.replyTo.tell(
                             SellerAddedValidation(
-                            task.messageId,
-                            Mono.just(validation)
-                        )
+                                task.messageId,
+                                Mono.just(validation)
+                            )
                         )
                     }
+                    .doOnError {error ->
+                        context.log.error("Unable to handle message: ${error.message}")
+                    }
+                    .subscribe()
                 Behaviors.same()
             }
             .build()

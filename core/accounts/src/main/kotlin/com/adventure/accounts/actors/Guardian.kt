@@ -5,18 +5,21 @@ import akka.actor.typed.javadsl.Behaviors
 import com.adventure.accounts.model.Messages
 import com.adventure.accounts.model.Messages.*
 import com.adventure.accounts.model.Tasks.*
+import com.adventure.accounts.service.AccountCreation
 import org.axonframework.extensions.reactor.eventhandling.gateway.ReactorEventGateway
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 import java.util.UUID
 
 @Service
 class Guardian(
-    private val event: ReactorEventGateway
+    private val event: ReactorEventGateway,
+    private val accountCreator: AccountCreation
 ) {
    val system: ActorSystem<Messages> = ActorSystem.create(
        Behaviors.setup{ context ->
            val receptionist = context.spawn(
-               Receptionist.create(), "Receptionist"
+               Receptionist.create(accountCreator), "Receptionist"
            )
            Behaviors.receiveMessage<Messages> { message ->
                when(message) {
@@ -38,14 +41,18 @@ class Guardian(
                   }
 
                    is BuyerAddedValidation -> {
-                       message.validation.subscribe {
-                           event.publish(message.validation)
-                       }
+                       message.validation.doOnSuccess {result ->
+                           event.publish(result)
+                               .then()
+                               .thenReturn(result)
+                       }.subscribe()
                    }
                    is SellerAddedValidation -> {
-                       message.validation.subscribe {
-                           event.publish(message.validation)
-                       }
+                       message.validation.doOnSuccess {result ->
+                           event.publish(result)
+                               .then()
+                               .thenReturn(result)
+                       }.subscribe()
                    }
                }
                Behaviors.same()

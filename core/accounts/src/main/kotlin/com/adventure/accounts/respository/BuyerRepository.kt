@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface BuyerRepository: JpaRepository<Buyer, UUID> {
-    fun save(userId: UUID, details: UserDetails): Buyer
+interface BuyerRepository: JpaRepository<Buyer, Long> {
+    fun save(details: UserDetails): Buyer
 }

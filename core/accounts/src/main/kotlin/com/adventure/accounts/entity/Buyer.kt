@@ -4,6 +4,7 @@ import com.adventure.apis.accounts.State.Sex
 import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.util.Locale.IsoCountryCode
+import java.util.UUID
 
 @Entity
 @Table(name = "buyers")
@@ -11,7 +12,8 @@ class Buyer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
-
+    @Column(name = "buyer_id")
+    val buyerId: UUID? = null
     @Column(name = "first_name")
     val firstName: String? = null
     @Column(name = "last_name")

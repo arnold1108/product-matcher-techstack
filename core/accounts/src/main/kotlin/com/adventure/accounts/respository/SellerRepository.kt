@@ -9,5 +9,5 @@ import java.util.UUID
 
 @Repository
 interface SellerRepository: JpaRepository<Seller, UUID> {
-    fun save(userId: UUID, details: UserDetails): Seller
+    fun save(details: UserDetails): Seller
 }

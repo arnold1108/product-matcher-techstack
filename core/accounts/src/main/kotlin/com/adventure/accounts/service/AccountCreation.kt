@@ -1,5 +1,6 @@
 package com.adventure.accounts.service
 
+import com.adventure.accounts.respository.BuyerRepository
 import com.adventure.accounts.respository.SellerRepository
 import com.adventure.apis.accounts.Commands.*
 import org.springframework.stereotype.Service
@@ -8,7 +9,8 @@ import java.util.*
 
 @Service
 class AccountCreation(
-    private val userAccountRepository: SellerRepository
+    private val buyerRepository: BuyerRepository,
+    private val sellerRepository: SellerRepository
 ) {
     fun addBuyer(buyerId: UUID, details: UserDetails): Mono<String> {
         val buyerDetails = UserDetails(
@@ -17,11 +19,11 @@ class AccountCreation(
             dob = details.dob,
             email = details.email,
             gender = details.gender,
-            countryCode = details.countryCode
+            country = details.country
         )
 
         return Mono.fromCallable {
-            userAccountRepository.save(buyerId, buyerDetails)
+            buyerRepository.save(buyerDetails)
             "Successfully added buyer $buyerId"
         }
     }
@@ -32,11 +34,11 @@ class AccountCreation(
             dob = details.dob,
             email = details.email,
             gender = details.gender,
-            countryCode = details.countryCode
+            country = details.country
         )
 
         return Mono.fromCallable {
-            userAccountRepository.save(sellerId, sellerDetails)
+            sellerRepository.save(sellerDetails)
             "Successfully added seller $sellerId"
         }
     }
