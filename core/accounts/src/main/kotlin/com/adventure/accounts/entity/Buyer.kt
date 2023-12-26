@@ -13,18 +13,18 @@ class Buyer {
     val id: Long? = null
 
     @Column(name = "first_name")
-    lateinit var firstName: String
+    val firstName: String? = null
     @Column(name = "last_name")
-    lateinit var lastName: String
+    val lastName: String? = null
     @Column(name = "dob")
-    lateinit var dob: LocalDateTime
+    val dob: LocalDateTime? = null
     @Column(name = "email_address")
-    lateinit var email: String
+    val email: String? = null
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
-    lateinit var gender: Sex
+    val gender: Sex? = null
     @Enumerated(EnumType.STRING)
     @Column(name = "country_code")
-    lateinit var countryCode: IsoCountryCode
+    val countryCode: IsoCountryCode? = null
 
 }
