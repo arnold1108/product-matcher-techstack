@@ -13,33 +13,43 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>accounts</name>
 	<description>Accounts Micro-service</description>
+
 	<properties>
 		<java.version>17</java.version>
 		<kotlin.version>1.9.20</kotlin.version>
 		<axon-starter.version>4.9.1</axon-starter.version>
 		<axon-base.version>4.9.0</axon-base.version>
+		<akka-dependencies.version>23.10.0</akka-dependencies.version>
+		<scala.binary.version>2.13</scala.binary.version>
 	</properties>
-	<dependencies><dependency>
-			<groupId>org.axonframework</groupId>
-			<artifactId>axon-spring-boot-starter</artifactId>
-			<version>${axon-starter.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>io.grpc</groupId>
-					<artifactId>grpc-netty</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.axonframework.extensions.reactor</groupId>
-			<artifactId>axon-reactor-spring-boot-starter</artifactId>
-			<version>${axon-base.version}</version>
-		</dependency>
+
+	<repositories>
+		<repository>
+			<id>akka-repository</id>
+			<name>Akka library repository</name>
+			<url>https://repo.akka.io/maven</url>
+		</repository>
+	</repositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.lightbend.akka</groupId>
+				<artifactId>akka-dependencies_2.13</artifactId>
+				<version>${akka-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
 		<dependency>
 			<groupId>com.adventure</groupId>
 			<artifactId>apis</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.axonframework</groupId>
 			<artifactId>axon-spring-boot-starter</artifactId>
@@ -51,35 +61,43 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.axonframework.extensions.reactor</groupId>
 			<artifactId>axon-reactor-spring-boot-starter</artifactId>
 			<version>${axon-base.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-kotlin</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.typesafe.akka</groupId>
+			<artifactId>akka-actor-typed_${scala.binary.version}</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>io.projectreactor.kotlin</groupId>
 			<artifactId>reactor-kotlin-extensions</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-reflect</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-stdlib</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jetbrains.kotlinx</groupId>
 			<artifactId>kotlinx-coroutines-reactor</artifactId>
@@ -95,7 +113,7 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
