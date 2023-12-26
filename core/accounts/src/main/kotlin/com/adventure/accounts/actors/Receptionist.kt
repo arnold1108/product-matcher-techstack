@@ -24,7 +24,7 @@ class Receptionist(
     override fun createReceive(): Receive<Tasks> {
         return newReceiveBuilder()
             .onMessage(AddBuyer::class.java) { task ->
-                accountCreator.addBuyer(task.command.buyerId, task.command.details)
+                accountCreator.addBuyer(task.command)
                     .doOnSuccess { validation ->
                         context.log.info(validation)
                         task.replyTo.tell(
@@ -41,7 +41,7 @@ class Receptionist(
                 Behaviors.same()
             }
             .onMessage(AddSeller::class.java) {task ->
-                accountCreator.addSeller(task.command.sellerId, task.command.details)
+                accountCreator.addSeller(task.command)
                     .doOnSuccess { validation ->
                         context.log.info(validation)
                         task.replyTo.tell(

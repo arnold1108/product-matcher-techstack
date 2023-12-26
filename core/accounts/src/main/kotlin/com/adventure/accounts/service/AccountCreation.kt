@@ -12,34 +12,40 @@ class AccountCreation(
     private val buyerRepository: BuyerRepository,
     private val sellerRepository: SellerRepository
 ) {
-    fun addBuyer(buyerId: UUID, details: UserDetails): Mono<String> {
-        val buyerDetails = UserDetails(
-            firstName = details.firstName,
-            lastName = details.lastName,
-            dob = details.dob,
-            email = details.email,
-            gender = details.gender,
-            country = details.country
+    fun addBuyer(command: CreateBuyerAccount): Mono<String> {
+        val buyerDetails = CreateBuyerAccount(
+            buyerId = command.buyerId,
+            details = UserDetails(
+                firstName = command.details.firstName,
+                lastName = command.details.lastName,
+                dob = command.details.dob,
+                email = command.details.email,
+                gender = command.details.gender,
+                country = command.details.country
+            )
         )
 
         return Mono.fromCallable {
             buyerRepository.save(buyerDetails)
-            "Successfully added buyer $buyerId"
+            "Successfully added buyer ${buyerDetails.buyerId}"
         }
     }
-    fun addSeller(sellerId: UUID, details: UserDetails): Mono<String> {
-        val sellerDetails = UserDetails(
-            firstName = details.firstName,
-            lastName = details.lastName,
-            dob = details.dob,
-            email = details.email,
-            gender = details.gender,
-            country = details.country
+    fun addSeller(command: CreateSellerAccount): Mono<String> {
+        val sellerDetails = CreateSellerAccount(
+            sellerId = command.sellerId,
+            details = UserDetails(
+                firstName = command.details.firstName,
+                lastName = command.details.lastName,
+                dob = command.details.dob,
+                email = command.details.email,
+                gender = command.details.gender,
+                country = command.details.country
+            )
         )
 
         return Mono.fromCallable {
             sellerRepository.save(sellerDetails)
-            "Successfully added seller $sellerId"
+            "Successfully added buyer ${sellerDetails.sellerId}"
         }
     }
 }
