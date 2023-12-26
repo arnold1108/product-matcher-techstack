@@ -12,11 +12,11 @@ sealed class Messages {
     data class AddSellerCommand(
         val command: CreateSellerAccount
     ): Messages()
-    data class BuyerAddedValidtion(
+    data class BuyerAddedValidation(
         val messageId: UUID,
         val validation: Mono<String>
     ): Messages()
-    data class SellerAddedValidtion(
+    data class SellerAddedValidation(
         val messageId: UUID,
         val validation: Mono<String>
     ): Messages()

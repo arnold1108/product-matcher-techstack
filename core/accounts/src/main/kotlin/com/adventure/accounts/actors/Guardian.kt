@@ -37,12 +37,12 @@ class Guardian(
                       receptionist.tell(addSeller)
                   }
 
-                   is BuyerAddedValidtion -> {
+                   is BuyerAddedValidation -> {
                        message.validation.subscribe {
                            event.publish(message.validation)
                        }
                    }
-                   is SellerAddedValidtion -> {
+                   is SellerAddedValidation -> {
                        message.validation.subscribe {
                            event.publish(message.validation)
                        }
