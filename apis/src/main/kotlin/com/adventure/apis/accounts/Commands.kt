@@ -16,9 +16,8 @@ class Commands {
         val dob: LocalDateTime,
         val email: String,
         val gender: Sex,
-        val countryCode: IsoCountryCode,
-
-        )
+        val countryCode: IsoCountryCode
+    )
     data class CreateSellerAccount(
         val sellerId: UUID,
         val details: UserDetails
