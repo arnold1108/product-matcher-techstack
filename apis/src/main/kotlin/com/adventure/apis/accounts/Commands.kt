@@ -1,6 +1,7 @@
 package com.adventure.apis.accounts
 
 import com.adventure.apis.accounts.State.Sex
+import java.util.Locale.IsoCountryCode
 import java.util.UUID
 
 class Commands {
@@ -13,7 +14,9 @@ class Commands {
         val lastName: String,
         val dob: String,
         val email: String,
-        val gender: Sex
+        val gender: Sex,
+        val countryCode: IsoCountryCode,
+
     )
     data class CreateSellerAccount(
         val sellerId: UUID,

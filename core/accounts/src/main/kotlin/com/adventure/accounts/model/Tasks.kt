@@ -8,7 +8,7 @@ import java.util.UUID
 sealed class Tasks {
     data class AddBuyer(
         val messageId: UUID,
-        val commands: CreateBuyerAccount,
+        val command: CreateBuyerAccount,
         val replyTo: ActorRef<Messages>
     ): Tasks()
     data class AddSeller(
