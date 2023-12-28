@@ -47,6 +47,7 @@ class Guardian(
                     }
 
                     is ManageStoreQuery -> TODO()
+                    is StoreAddedFeedback -> TODO()
                 }
                 Behaviors.same()
             }
