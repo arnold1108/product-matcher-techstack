@@ -10,6 +10,7 @@ class Commands {
         val category: String,
         val storeName: String,
     )
+
     data class AddStock(
         val storeId: UUID,
         val productId: UUID,

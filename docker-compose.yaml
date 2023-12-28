@@ -41,7 +41,11 @@ services:
     image:  cassandra:5.0
     environment:
       CASSANDRA_CLUSTER_NAME: "Soko"
-      CASSANDRA_LISTEN_ADDRESS: "localhost"
+      CASSANDRA_LISTEN_ADDRESS: "cassandra"
+      CASSANDRA_USER: "adventure"
+      CASSANDRA_PASSWORD: "rieko123"
+      CASSANDRA_SEEDS: "cassandra"
+      CASSANDRA_KEYSPACE: "store-svc"
     ports:
       - "9142:9142"
     volumes:

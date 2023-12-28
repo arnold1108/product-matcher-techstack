@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 import java.util.UUID
-
+data class StoreDetails(
+    val category: String,
+    val storeName: String
+)
 @RestController
 @RequestMapping("/seller")
 class SellerController(
@@ -41,12 +44,13 @@ class SellerController(
     @PostMapping("/{sellerId}/store/create")
     fun createStore(
         @PathVariable sellerId: UUID,
-        @RequestBody category: String
+        @RequestBody details: StoreDetails
     ): Mono<ResponseEntity<String>> {
         val createStoreCommand = CreateStore(
             storeId = UUID.randomUUID(),
             sellerId = sellerId,
-            category = category
+            category = details.category,
+            storeName = details.storeName
         )
         return command.send<ResponseEntity<String>>(createStoreCommand)
             .then()

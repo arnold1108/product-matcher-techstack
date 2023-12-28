@@ -1,0 +1,9 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: STORE-SVC
+  codec:
+    max-in-memory-size: 3MB
+  cassandra:
+    local-datacenter: datacenter1
