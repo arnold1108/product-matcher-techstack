@@ -36,6 +36,18 @@ services:
       SERVER_PORT: 8024
       AXONIQ_AXONSERVER_PORT: 8124
 
+  cassandra:
+    container_name: cassandra
+    image:  cassandra:5.0
+    environment:
+      CASSANDRA_CLUSTER_NAME: "Soko"
+      CASSANDRA_LISTEN_ADDRESS: "localhost"
+    ports:
+      - "9042:9042"
+    volumes:
+      - ./data/cassandra:/var/lib/cassandra
+
+
 volumes:  
   postgresql_data:
   pgadmin-data:

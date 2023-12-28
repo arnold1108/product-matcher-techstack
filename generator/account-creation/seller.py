@@ -6,7 +6,7 @@ from datetime import datetime
 
 fake = Faker()
 
-endpoint_url = "http://localhost:8080/seller/account/create"
+endpoint_url = "http://localhost:9090/seller/account/create"
 
 for _ in range(12):
     # Generate fake data
