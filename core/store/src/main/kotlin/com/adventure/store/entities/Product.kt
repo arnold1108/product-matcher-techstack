@@ -15,6 +15,6 @@ data class Product(
     @Column("product_description") val productDescription: String,
     @Column("price") val price: Double,
     @Column("quantity") val remainingQuantity: Int,
-    @Column("likes") val likes: Int,
+    @Column("likes") var likes: Int = 0,
     @Column("time_added") val timeAdded: LocalDateTime
 )
