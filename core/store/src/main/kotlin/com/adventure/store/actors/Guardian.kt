@@ -5,8 +5,7 @@ import akka.actor.typed.javadsl.Behaviors
 import com.adventure.apis.store.Commands
 import com.adventure.apis.store.Commands.AddStock
 import com.adventure.store.model.Messages
-import com.adventure.store.model.Messages.AddProductCommand
-import com.adventure.store.model.Messages.AddStoreCommand
+import com.adventure.store.model.Messages.*
 import com.adventure.store.model.Tasks
 import com.adventure.store.model.Tasks.AddProduct
 import com.adventure.store.model.Tasks.AddStore
@@ -42,6 +41,8 @@ class Guardian(private val event: ReactorEventGateway) {
                             )
                         )
                     }
+
+                    is ManageStoreQuery -> TODO()
                 }
                 Behaviors.same()
             }
