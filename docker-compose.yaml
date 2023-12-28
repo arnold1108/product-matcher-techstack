@@ -43,11 +43,12 @@ services:
       CASSANDRA_CLUSTER_NAME: "Soko"
       CASSANDRA_LISTEN_ADDRESS: "localhost"
     ports:
-      - "9042:9042"
+      - "9142:9142"
     volumes:
-      - ./data/cassandra:/var/lib/cassandra
+      - cassandra-data:/var/lib/cassandra
 
 
 volumes:  
   postgresql_data:
   pgadmin-data:
+  cassandra-data:
