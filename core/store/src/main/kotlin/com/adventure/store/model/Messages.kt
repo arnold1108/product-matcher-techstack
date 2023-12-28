@@ -21,4 +21,8 @@ sealed class Messages {
         val messageId: UUID,
         val feedback: Mono<String>
     ): Messages()
+    data class ProductAddedFeedback(
+        val messageId: UUID,
+        val feedback: Mono<String>
+    ): Messages()
 }

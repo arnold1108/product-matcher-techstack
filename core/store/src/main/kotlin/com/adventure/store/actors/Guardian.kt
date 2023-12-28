@@ -9,20 +9,23 @@ import com.adventure.store.model.Messages.*
 import com.adventure.store.model.Tasks
 import com.adventure.store.model.Tasks.AddProduct
 import com.adventure.store.model.Tasks.AddStore
+import com.adventure.store.service.ProductService
 import com.adventure.store.service.StoreService
 import org.axonframework.extensions.reactor.eventhandling.gateway.ReactorEventGateway
 import org.springframework.stereotype.Service
+import reactor.core.scheduler.Schedulers
 import java.util.*
 
 @Service
 class Guardian(
     private val event: ReactorEventGateway,
-    storeService: StoreService
+    storeService: StoreService,
+    productService: ProductService
 ) {
     val actorSystem: ActorSystem<Messages> = ActorSystem.create(
         Behaviors.setup { context ->
             val stocker =
-                context.spawn(Stocker.create(), "Stocker")
+                context.spawn(Stocker.create(productService), "Stocker")
             val storeCreator = context.spawn(StoreCreator.create(storeService), "StoreCreator")
             Behaviors.receiveMessage<Messages> {message ->
                 when(message) {
@@ -46,8 +49,23 @@ class Guardian(
                         )
                     }
 
-                    is ManageStoreQuery -> TODO()
-                    is StoreAddedFeedback -> TODO()
+                    is StoreAddedFeedback -> {
+                        message.feedback.doOnSuccess { feedback ->
+                            event.publish(feedback)
+                                .then()
+                                .thenReturn(feedback)
+                        }
+                            .subscribeOn(Schedulers.immediate())
+                    }
+                    is ProductAddedFeedback -> {
+                        message.feedback.doOnSuccess { feedback ->
+                            event.publish(feedback)
+                                .then()
+                                .thenReturn(feedback)
+                        }
+                            .subscribeOn(Schedulers.immediate())
+                    }
+                    is ManageStoreQuery -> {}
                 }
                 Behaviors.same()
             }
