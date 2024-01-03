@@ -5,13 +5,11 @@ import akka.actor.typed.javadsl.AbstractBehavior
 import akka.actor.typed.javadsl.ActorContext
 import akka.actor.typed.javadsl.Behaviors
 import akka.actor.typed.javadsl.Receive
-import com.adventure.store.model.Messages
 import com.adventure.store.model.Messages.ProductAddedFeedback
 import com.adventure.store.model.Tasks
 import com.adventure.store.model.Tasks.AddProduct
 import com.adventure.store.service.ProductService
 import reactor.core.publisher.Mono
-import reactor.core.scheduler.Schedulers
 
 
 class Stocker(
@@ -41,7 +39,7 @@ class Stocker(
                     .doOnError { error ->
                         context.log.error("Unable to handle task: ${error.message}")
                     }
-                    .subscribeOn(Schedulers.immediate())
+                    .subscribe()
                 Behaviors.same()
             }
             .build()

@@ -40,7 +40,6 @@ class SellerController(
     fun handle(command: CreateSellerAccount){
         println("Received command: $command")
     }
-
     @PostMapping("/{sellerId}/store/create")
     fun createStore(
         @PathVariable sellerId: UUID,
@@ -60,7 +59,6 @@ class SellerController(
     fun handle(command: CreateStore){
         println("Received command: $command")
     }
-
     @PostMapping("/store/{storeId}/stock/add")
     fun addStock(
         @PathVariable
