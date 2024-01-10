@@ -2,10 +2,7 @@ package com.adventure.gateway.controller
 
 import com.adventure.apis.accounts.Commands.CreateBuyerAccount
 import com.adventure.apis.accounts.Commands.UserDetails
-import com.adventure.apis.accounts.State.Sex
-import com.adventure.apis.cart.Commands
 import com.adventure.apis.cart.Commands.*
-import com.adventure.apis.cart.QueryResults
 import com.adventure.apis.cart.QueryResults.ViewCartQueryResult
 import com.adventure.apis.marketplace.Commands.LikeProduct
 import com.adventure.apis.marketplace.QueryResults.ExploreProductsQueryResult
