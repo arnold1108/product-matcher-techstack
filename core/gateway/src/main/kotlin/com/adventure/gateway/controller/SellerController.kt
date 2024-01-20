@@ -2,10 +2,13 @@ package com.adventure.gateway.controller
 
 import com.adventure.apis.accounts.Commands.CreateSellerAccount
 import com.adventure.apis.accounts.Commands.UserDetails
-import com.adventure.apis.store.Category.StoreCategory
 import com.adventure.apis.store.Commands.AddStock
 import com.adventure.apis.store.Commands.CreateStore
 import com.adventure.apis.store.QueryResults.ManageStoreQueryResults
+import com.adventure.gateway.utils.Mappings.ADD_STOCK_MAPPING
+import com.adventure.gateway.utils.Mappings.CREATE_STORE_MAPPING
+import com.adventure.gateway.utils.Mappings.MANAGE_STORE_MAPPING
+import com.adventure.gateway.utils.Mappings.SELLER_ACCOUNT_CREATION_MAPPING
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
 import org.springframework.http.ResponseEntity
@@ -13,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 import java.util.UUID
@@ -22,11 +24,10 @@ data class StoreDetails(
     val storeName: String
 )
 @RestController
-@RequestMapping("/seller")
 class SellerController(
     private val command: ReactorCommandGateway
 ) {
-    @PostMapping("/account/create")
+    @PostMapping(SELLER_ACCOUNT_CREATION_MAPPING)
     fun createSellerAccount(@RequestBody details: UserDetails): Mono<ResponseEntity<String>> {
         val createSellerAccountCommand = CreateSellerAccount(
             sellerId = UUID.randomUUID(),
@@ -40,7 +41,7 @@ class SellerController(
     fun handle(command: CreateSellerAccount){
         println("Received command: $command")
     }
-    @PostMapping("/{sellerId}/store/create")
+    @PostMapping(CREATE_STORE_MAPPING)
     fun createStore(
         @PathVariable sellerId: UUID,
         @RequestBody details: StoreDetails
@@ -59,7 +60,7 @@ class SellerController(
     fun handle(command: CreateStore){
         println("Received command: $command")
     }
-    @PostMapping("/store/{storeId}/stock/add")
+    @PostMapping(ADD_STOCK_MAPPING)
     fun addStock(
         @PathVariable
         storeId: UUID,
@@ -82,7 +83,7 @@ class SellerController(
             .thenReturn(ResponseEntity.ok("Product Added"))
     }
 
-    @GetMapping("/store/{storeId}/manage")
+    @GetMapping(MANAGE_STORE_MAPPING)
     fun manageStore(@PathVariable storeId: UUID): Mono<ResponseEntity<ManageStoreQueryResults>> {
         TODO()
     }
