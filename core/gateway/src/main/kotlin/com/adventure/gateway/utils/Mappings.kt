@@ -6,7 +6,7 @@ object Mappings {
     const val ACCOUNT_CREATION_MAPPING = "$REQUEST_MAPPING/account/create"
 
     const val CREATE_STORE_MAPPING = "$REQUEST_MAPPING/{seller_id}/store/create"
-    const val ADD_STOCK_MAPPING = "$REQUEST_MAPPING/store/{store_id}/stock/add"
+    const val ADD_STOCK_MAPPING = "$REQUEST_MAPPING/{seller_id}/store/{store_id}/stock/add"
     const val MANAGE_STORE_MAPPING = "$REQUEST_MAPPING/store/{store_id}/manage"
 
     const val EXPLORE_PRODUCT_MAPPING = "$REQUEST_MAPPING/{buyer_id}/explore"

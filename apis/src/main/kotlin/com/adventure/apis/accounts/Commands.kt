@@ -2,7 +2,7 @@ package com.adventure.apis.accounts
 
 import com.adventure.apis.accounts.State.Role
 import com.adventure.apis.accounts.State.Sex
-import java.time.LocalDateTime
+import java.time.LocalDate
 import java.util.UUID
 
 class Commands {
@@ -10,7 +10,7 @@ class Commands {
         val userId: UUID,
         val firstName: String,
         val lastName: String,
-        val dateOfBirth: LocalDateTime,
+        val dateOfBirth: LocalDate,
         val email: String,
         val gender: Sex,
         val country: String,

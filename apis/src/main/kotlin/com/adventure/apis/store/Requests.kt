@@ -18,6 +18,8 @@ class Requests {
         val productCategory: String,
         @JsonProperty("product_description")
         val productDescription: String,
+        @JsonProperty("quantity")
+        val quantity: Int,
         @JsonProperty("price")
         val price: Double
     )

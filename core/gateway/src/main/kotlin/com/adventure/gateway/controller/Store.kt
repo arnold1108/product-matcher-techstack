@@ -34,10 +34,12 @@ class Store(private val command: ReactorCommandGateway) {
 
     @PostMapping(Mappings.ADD_STOCK_MAPPING)
     fun addStock(
+        @PathVariable("seller_id") sellerId: UUID,
         @PathVariable("store_id") storeId: UUID,
         @RequestBody request: AddStockRequest
     ): Mono<ResponseEntity<String>> {
         val addStockCommand = Commands.AddStock(
+            sellerId = sellerId,
             storeId = storeId,
             productId = UUID.randomUUID(),
             productName = request.productName,
@@ -47,7 +49,7 @@ class Store(private val command: ReactorCommandGateway) {
         )
         return command.send<ResponseEntity<String>>(addStockCommand)
             .then()
-            .thenReturn(ResponseEntity.ok("Product Added"))
+            .thenReturn(ResponseEntity.ok("${request.productName} Added"))
     }
 
     @GetMapping(Mappings.MANAGE_STORE_MAPPING)

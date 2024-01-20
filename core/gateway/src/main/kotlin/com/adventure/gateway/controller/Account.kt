@@ -1,7 +1,7 @@
 package com.adventure.gateway.controller
 
 import com.adventure.apis.accounts.Commands
-import com.adventure.apis.accounts.Requests
+import com.adventure.apis.accounts.Requests.*
 import com.adventure.gateway.utils.Mappings
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
 import org.springframework.http.ResponseEntity
@@ -14,7 +14,7 @@ import java.util.*
 @RestController
 class Account (private val command: ReactorCommandGateway){
     @PostMapping(Mappings.ACCOUNT_CREATION_MAPPING)
-    fun createBuyerAccount( @RequestBody request: Requests.CreateAccountRequest): Mono<ResponseEntity<String>> {
+    fun createBuyerAccount( @RequestBody request: CreateAccountRequest): Mono<ResponseEntity<String>> {
         val createBuyerAccountCommand = Commands.CreateAccount(
             userId = UUID.randomUUID(),
             firstName = request.firstName,

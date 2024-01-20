@@ -2,7 +2,7 @@ package com.adventure.apis.accounts
 
 import com.adventure.apis.accounts.State.*
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 class Requests {
     data class CreateAccountRequest(
@@ -11,7 +11,7 @@ class Requests {
         @JsonProperty("last_name")
         val lastName: String,
         @JsonProperty("date_of_birth")
-        val dob: LocalDateTime,
+        val dob: LocalDate,
         @JsonProperty("email_address")
         val email: String,
         @JsonProperty("gender")

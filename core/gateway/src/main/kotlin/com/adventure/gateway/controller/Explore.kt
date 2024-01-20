@@ -1,7 +1,8 @@
 package com.adventure.gateway.controller
 
+import com.adventure.apis.cart.Commands.AddProductToCart
 import com.adventure.apis.marketplace.Commands
-import com.adventure.apis.marketplace.QueryResults
+import com.adventure.apis.marketplace.QueryResults.ExploreProductsQueryResult
 import com.adventure.gateway.utils.Mappings.ADD_PRODUCT_TO_CART_MAPPING
 import com.adventure.gateway.utils.Mappings.EXPLORE_PRODUCT_MAPPING
 import com.adventure.gateway.utils.Mappings.LIKE_PRODUCT_MAPPING
@@ -15,7 +16,7 @@ import java.util.*
 
 class Explore (private val command: ReactorCommandGateway) {
     @GetMapping(EXPLORE_PRODUCT_MAPPING)
-    fun exploreProducts(@PathVariable("buyer_id") buyerId: UUID): Mono<ResponseEntity<QueryResults.ExploreProductsQueryResult>> {
+    fun exploreProducts(@PathVariable("buyer_id") buyerId: UUID): Mono<ResponseEntity<ExploreProductsQueryResult>> {
         TODO()
     }
 
@@ -39,7 +40,7 @@ class Explore (private val command: ReactorCommandGateway) {
         @PathVariable("product_id") productId: UUID,
         quantity: Int
     ): Mono<ResponseEntity<String>> {
-        val addProductToCartCommand = com.adventure.apis.cart.Commands.AddProductToCart(
+        val addProductToCartCommand = AddProductToCart(
             buyerId = buyerId,
             productId = productId,
             quantity = quantity

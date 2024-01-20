@@ -2,6 +2,7 @@ package com.adventure.gateway.controller
 
 import com.adventure.apis.cart.Commands
 import com.adventure.apis.cart.QueryResults
+import com.adventure.apis.cart.QueryResults.*
 import com.adventure.gateway.utils.Mappings
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
 import org.springframework.http.ResponseEntity
@@ -12,7 +13,7 @@ import java.util.*
 @RestController
 class Cart(private val command: ReactorCommandGateway) {
     @GetMapping(Mappings.VIEW_CART_MAPPING)
-    fun viewCart(@PathVariable("buyer_id") buyerId: UUID): Mono<ResponseEntity<QueryResults.ViewCartQueryResult>> {
+    fun viewCart(@PathVariable("buyer_id") buyerId: UUID): Mono<ResponseEntity<ViewCartQueryResult>> {
         TODO()
     }
 
@@ -41,3 +42,4 @@ class Cart(private val command: ReactorCommandGateway) {
     }
 
 }
+
