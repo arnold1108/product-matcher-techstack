@@ -1,6 +1,6 @@
 package com.adventure.apis.store
 
-class Category {
+class State {
     enum class StoreCategory(val displayName: String) {
         SPORTS("Sports"),
         FASHION("fashion"),
