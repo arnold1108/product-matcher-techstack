@@ -23,6 +23,7 @@ class Store(private val command: ReactorCommandGateway) {
     ): Mono<ResponseEntity<String>> {
         val createStoreCommand = Commands.CreateStore(
             storeId = UUID.randomUUID(),
+
             sellerId = sellerId,
             category = request.category,
             storeName = request.storeName
