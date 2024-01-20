@@ -1,0 +1,53 @@
+name: gateway-service-workflow
+
+on: push
+
+env:
+  ACTIVE_PROFILE: prod
+  REGISTRY: docker.io
+  GRAALVM_DISTRIBUTION: 'graalvm-community'
+  GRAALVM_CACHE: 'maven'
+  GRAALVM_CHECK_FOR_UPDATES: 'true'
+  GRAALVM_SET_JAVA_HOME: 'true'
+  JAVA_VERSION: '21'
+  IMAGE_NAME: soko-gateway-service
+  PUBLISH_IMAGE: true
+  PULL_BUILDER_IMAGE: IF_NOT_PRESENT
+  BUILD_CONTEXT: ./soko/core/gateway
+  ORG_NAME: adventure
+
+jobs:
+  build-package-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v3
+        with:
+          path: soko
+
+      - name: Set Up GraalVM Environment
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: ${{env.JAVA_VERSION}}
+          distribution: ${{env.GRAALVM_DISTRIBUTION}}
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          set-java-home: ${{env.GRAALVM_SET_JAVA_HOME}}
+          cache: ${{env.GRAALVM_CACHE}}
+          check-for-updates: ${{env.GRAALVM_CHECK_FOR_UPDATES}}
+
+      - name: Build & Publish OCI Image
+        run: |
+          mvn spring-boot:build-image -q -B -f ${{env.BUILD_CONTEXT}}/pom.xml \
+          -Dprofile=${{env.ACTIVE_PROFILE}} \
+          -Dspring-boot.build-image.publish=${{env.PUBLISH_IMAGE}} \
+          -Dspring-boot.build-image.imageName="${{env.REGISTRY}}/${{env.ORG_NAME}}/${{env.IMAGE_NAME}}:${{github.sha}}" \
+          -Dspring-boot.build-image.pullPolicy=${{env.PULL_BUILDER_IMAGE}} \
+          -DREGISTRY="${{env.REGISTRY}}" \
+          -DREGISTRY_PASSWORD="${{secrets.GITHUB_TOKEN}}" 
+
+      - name: Build API Library
+        run: mvn clean install -q -B -f ./apis/pom.xml
+
+
+
+
