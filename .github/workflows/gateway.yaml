@@ -39,6 +39,7 @@ jobs:
 
       - name: Build & Publish OCI Image
         run: |
+          ls
           mvn spring-boot:build-image -q -B -f ${{env.BUILD_CONTEXT}}/pom.xml \
           -Dprofile=${{env.ACTIVE_PROFILE}} \
           -Dspring-boot.build-image.publish=${{env.PUBLISH_IMAGE}} \
