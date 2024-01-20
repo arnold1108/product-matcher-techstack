@@ -35,6 +35,9 @@ jobs:
           cache: ${{env.GRAALVM_CACHE}}
           check-for-updates: ${{env.GRAALVM_CHECK_FOR_UPDATES}}
 
+      - name: Build API Library
+        run: mvn clean install -q -B -f ./apis/pom.xml
+
       - name: Build & Publish OCI Image
         run: |
           mvn spring-boot:build-image -q -B -f ${{env.BUILD_CONTEXT}}/pom.xml \
@@ -45,8 +48,7 @@ jobs:
           -DREGISTRY="${{env.REGISTRY}}" \
           -DREGISTRY_PASSWORD="${{secrets.GITHUB_TOKEN}}" 
 
-      - name: Build API Library
-        run: mvn clean install -q -B -f ./apis/pom.xml
+      
 
 
 
