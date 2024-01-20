@@ -13,7 +13,7 @@ env:
   IMAGE_NAME: soko-gateway-service
   PUBLISH_IMAGE: true
   PULL_BUILDER_IMAGE: IF_NOT_PRESENT
-  BUILD_CONTEXT: ./soko/core/gateway
+  BUILD_CONTEXT: ./core/gateway
   ORG_NAME: adventure
 
 jobs:
