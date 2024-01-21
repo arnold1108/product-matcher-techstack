@@ -15,11 +15,11 @@ class Requests {
         @JsonProperty("email_address")
         val email: String,
         @JsonProperty("gender")
-        val gender: Sex,
+        val gender: String,
         @JsonProperty("country")
         val country: String,
         @JsonProperty("role")
-        val role: Role
+        val role: String
     )
 
 }

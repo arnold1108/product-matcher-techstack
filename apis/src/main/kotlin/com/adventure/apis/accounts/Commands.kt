@@ -12,8 +12,8 @@ class Commands {
         val lastName: String,
         val dateOfBirth: LocalDate,
         val email: String,
-        val gender: Sex,
+        val gender: String,
         val country: String,
-        val role: Role
+        val role: String
     )
 }

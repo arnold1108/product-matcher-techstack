@@ -35,18 +35,18 @@ jobs:
           check-for-updates: ${{env.GRAALVM_CHECK_FOR_UPDATES}}
 
       - name: Build API Library
-        run: mvn clean install -q -B -f ./apis/pom.xml
+        run: mvn clean install -f ./apis/pom.xml
 
-      - name: Build & Publish OCI Image
+      - name: Build & Publish Image
         run: |
           ls
-          mvn spring-boot:build-image -q -B -f ${{env.BUILD_CONTEXT}}/pom.xml \
-          -Dprofile=${{env.ACTIVE_PROFILE}} \
+          mvn spring-boot:build-image -f ${{env.BUILD_CONTEXT}}/pom.xml \
           -Dspring-boot.build-image.publish=${{env.PUBLISH_IMAGE}} \
           -Dspring-boot.build-image.imageName="${{env.REGISTRY}}/${{env.ORG_NAME}}/${{env.IMAGE_NAME}}:${{github.sha}}" \
           -Dspring-boot.build-image.pullPolicy=${{env.PULL_BUILDER_IMAGE}} \
           -DREGISTRY="${{env.REGISTRY}}" \
-          -DREGISTRY_PASSWORD="${{secrets.GITHUB_TOKEN}}" 
+          -DREGISTRY_USER="${{secrets.DOCKER_USER}}" \
+          -DREGISTRY_PASSWORD="${{secrets.DOCKER_PASSWORD}}" 
 
       
 

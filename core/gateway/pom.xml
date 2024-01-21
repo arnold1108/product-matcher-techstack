@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<apis.version>0.0.1-SNAPSHOT</apis.version>
 		<kotlin.version>1.9.20</kotlin.version>
 		<axon-starter.version>4.9.1</axon-starter.version>
 		<axon-base.version>4.9.0</axon-base.version>
@@ -29,7 +30,7 @@
 		<dependency>
 			<groupId>com.adventure</groupId>
 			<artifactId>apis</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${apis.version}</version>
 		</dependency>
 
 		<dependency>
@@ -60,11 +61,6 @@
 			<groupId>org.axonframework.extensions.reactor</groupId>
 			<artifactId>axon-reactor-spring-boot-starter</artifactId>
 			<version>${axon-base.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -158,6 +154,11 @@
 			</plugin>
 
 			<plugin>
+				<groupId>org.graalvm.buildtools</groupId>
+				<artifactId>native-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
@@ -212,6 +213,11 @@
 					<dependency>
 						<groupId>org.jetbrains.kotlin</groupId>
 						<artifactId>kotlin-maven-allopen</artifactId>
+						<version>${kotlin.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.jetbrains.kotlin</groupId>
+						<artifactId>kotlin-maven-noarg</artifactId>
 						<version>${kotlin.version}</version>
 					</dependency>
 				</dependencies>
