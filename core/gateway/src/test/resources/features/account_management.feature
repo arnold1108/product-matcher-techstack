@@ -6,3 +6,5 @@ Feature: Account Management
       | Arnold     | Opiyo     | 2000-01-01    | user.example@adventure.com | Other   | Kenyan | Buyer |
     Then the request should be successful
     And the response body should contain the message "Welcome to Soko!"
+
+

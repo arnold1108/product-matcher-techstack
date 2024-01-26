@@ -7,7 +7,6 @@ import io.cucumber.datatable.DataTable
 import io.cucumber.java.en.When
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.And
-import io.cucumber.spring.CucumberContextConfiguration
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
 import org.junit.jupiter.api.Assertions.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,8 +17,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
 import java.time.LocalDate
 
-
-@CucumberContextConfiguration
+//@CucumberContextConfiguration
 @WebFluxTest(controllers = [Account::class])
 class AccountManagement {
     @Autowired
@@ -27,7 +25,7 @@ class AccountManagement {
     @MockBean
     private lateinit var commandGateway: ReactorCommandGateway
     private var createAccountRequest: CreateAccountRequest? = null
-    private var responseMessage: String? = null
+    private var responseMessage: String = ""
 
     @When("a user sends a requests to create an account with the following details:")
     fun aUserSendsARequestsToCreateAnAccountWithTheFollowingDetails(details: DataTable) {
@@ -54,7 +52,7 @@ class AccountManagement {
             .exchange()
             .expectBody(String::class.java)
             .consumeWith { response ->
-                responseMessage = response.responseBody
+                responseMessage = response.responseBody!!
             }
     }
     @And("the response body should contain the message {string}")
