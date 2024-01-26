@@ -1,48 +1,80 @@
 package com.adventure.gateway.steps
 
+import com.adventure.apis.store.Requests
+import com.adventure.apis.store.Requests.CreateStoreRequest
+import com.adventure.apis.store.State
+import com.adventure.gateway.utils.Mappings.CREATE_STORE_MAPPING
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.en.When
 import io.cucumber.java.PendingException
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.And
+import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
+import org.junit.Assert.assertEquals
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import org.springframework.test.web.reactive.server.EntityExchangeResult
+import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.web.reactive.function.BodyInserters
 
-
+@WebFluxTest(controllers = [Store::class])
 class Store {
+    @Autowired
+    private lateinit var webTestClient: WebTestClient
+    @MockBean
+    private lateinit var commandGateway: ReactorCommandGateway
+    private lateinit var response: EntityExchangeResult<String>
+
     @When("the seller of id {string} sends a request to create a new store named {string} belonging to the category {string}")
     fun theSellerOfIdSendsARequestToCreateANewStoreNamedBelongingToTheCategory(
         sellerId: String, storeName: String, storeCategory: String
     ) {
-        // Write code here that turns the phrase above into concrete actions
-        throw PendingException()
+         val createStoreRequest = CreateStoreRequest(
+            storeName = storeName,
+            category = State.StoreCategory.valueOf(storeCategory)
+        )
+        response = webTestClient.post()
+            .uri(CREATE_STORE_MAPPING, sellerId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(createStoreRequest))
+            .exchange()
+            .expectBody(String::class.java)
+            .returnResult()
     }
 
     @Then("the product should be added successfully")
     fun theProductShouldBeAddedSuccessfully() {
-        // Write code here that turns the phrase above into concrete actions
-        throw PendingException()
-    }
-
-    @When("the buyer of id {string} sends a request to remove a product of id {string} from the cart")
-    fun theBuyerOfIdSendsARequestToRemoveAProductOfIdFromTheCart(arg0: String, arg1: String) {
-        // Write code here that turns the phrase above into concrete actions
-        throw PendingException()
-    }
-
-
-    @And("the response body should contain the message {string}productId{string}")
-    fun theResponseBodyShouldContainTheMessageProductId(arg0: String, arg1: String) {
-        // Write code here that turns the phrase above into concrete actions
-        throw PendingException()
+        assertEquals(response.status, HttpStatus.OK)
     }
 
     @When("the seller of id {string} owning a store of id {string} adds stock with the following details:")
-    fun theSellerOfIdOwningAStoreOfIdAddsStockWithTheFollowingDetails(arg0: String, arg1: String, arg2: List<*>) {
-        // Write code here that turns the phrase above into concrete actions
-        throw PendingException()
+    fun theSellerOfIdOwningAStoreOfIdAddsStockWithTheFollowingDetails(
+        sellerId: String, storeId: String, details: DataTable
+    ) {
+        val rows = details.asMaps(String::class.java, String::class.java)
+        for (column: Map<String, String> in rows) {
+            val addStockRequest = Requests.AddStockRequest(
+                productName = column["product_name"]!!,
+                productCategory = column["product_category"]!!,
+                productDescription = column["product_description"]!!,
+                quantity = column["quantity"]!!.toInt(),
+                price = column["price"]!!.toDouble()
+            )
+            response = webTestClient.post()
+                .uri("/store/$sellerId/$storeId/add-stock")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(addStockRequest))
+                .exchange()
+                .expectBody(String::class.java)
+                .returnResult()
+        }
     }
 
     @And("the response body should contain the message {string}")
-    fun theResponseBodyShouldContainTheMessage(arg0: String) {
-        // Write code here that turns the phrase above into concrete actions
-        throw PendingException()
+    fun theResponseBodyShouldContainTheMessage(expectedMessage: String) {
+        assertEquals(response.responseBody, expectedMessage)
     }
 }
