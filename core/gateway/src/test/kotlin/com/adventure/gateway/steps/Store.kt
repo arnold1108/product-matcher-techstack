@@ -12,15 +12,21 @@ import io.cucumber.java.en.And
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
 import org.junit.Assert.assertEquals
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.SpringBootTest.*
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.EntityExchangeResult
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
+import java.util.*
 
 @WebFluxTest(controllers = [Store::class])
+@AutoConfigureWebTestClient
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class Store {
     @Autowired
     private lateinit var webTestClient: WebTestClient
@@ -34,7 +40,7 @@ class Store {
     ) {
          val createStoreRequest = CreateStoreRequest(
             storeName = storeName,
-            category = State.StoreCategory.valueOf(storeCategory)
+            category = State.StoreCategory.valueOf(storeCategory.uppercase(Locale.getDefault()))
         )
         response = webTestClient.post()
             .uri(CREATE_STORE_MAPPING, sellerId)
@@ -73,8 +79,8 @@ class Store {
         }
     }
 
-    @And("the response body should contain the message {string}")
-    fun theResponseBodyShouldContainTheMessage(expectedMessage: String) {
+    @And("the store response body should contain the message {string}")
+    fun theStoreResponseBodyShouldContainTheMessage(expectedMessage: String) {
         assertEquals(response.responseBody, expectedMessage)
     }
 }

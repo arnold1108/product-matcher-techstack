@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@CucumberContextConfiguration
 @WebFluxTest(controllers = [Cart::class])
 class Cart {
     @Autowired

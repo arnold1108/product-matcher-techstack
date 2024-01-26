@@ -10,7 +10,7 @@ Feature: Seller manages store and stock
       | product_name | product_category | product_description          | quantity | price |
       | Vitron TV    | Electronics      | 32 Inch Frameless Android TV | 5        | 24000 |
     Then the product should be added successfully
-    And the response body should contain the message "product_name Added"
+    And the store response body should contain the message "product_name Added"
 
 
   Scenario: Seller Managers Their Store
