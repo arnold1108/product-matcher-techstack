@@ -10,7 +10,7 @@ Feature: Cart
   Scenario: Buyer Removes Product from Cart
     As a buyer, I want to be able to remove a product from the cart when I want to
     When the buyer of id "buyerId" sends a request to remove a product of id "productId" from the cart
-    Then the response body should contain the message "Removed product of id <productId> from the cart"
+    Then the response body should contain the message "Removed product of id productId from the cart"
 
   Scenario: Buyer Checks Out of the Cart
     As a buyer, I want to be able to check out of the cart after I have selected my products

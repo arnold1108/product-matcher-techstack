@@ -82,9 +82,8 @@ class Cart {
             .returnResult()
     }
 
-    @Then("the response body should contain the message \"Removed product of id {productId} from the cart\"")
-    fun theResponseBodyShouldContainTheMessage(productId:UUID) {
-        val expectedMessage = "Removed product of id $productId from the cart"
+    @Then("the response body should contain the message {string}")
+    fun theResponseBodyShouldContainTheMessage(expectedMessage: String) {
         val actualMessage = response.responseBody as String
         assertEquals(expectedMessage, actualMessage)
     }
