@@ -16,7 +16,6 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
 import java.time.LocalDate
-import io.cucumber.java.PendingException
 import org.junit.Assert
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.reactive.server.EntityExchangeResult
@@ -66,6 +65,5 @@ class AccountManagement {
     @And("the account management response body should contain the message {string}")
     fun theAccountManagementResponseBodyShouldContainTheMessage(expectedMessage: String) {
         assertEquals(response.responseBody, expectedMessage)
-        throw PendingException()
     }
 }
