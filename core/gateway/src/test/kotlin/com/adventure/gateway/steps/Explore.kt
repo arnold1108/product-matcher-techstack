@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.*
 import org.springframework.web.reactive.function.BodyInserters
-import io.cucumber.java.PendingException
 
 
 @WebFluxTest(controllers = [Explore::class])
@@ -85,7 +84,7 @@ class Explore {
     fun theResponseBodyShouldContainTheMessage(expectedMessage: String) {
         assertEquals(response.responseBody, expectedMessage)
     }
-    
+
 
     @And("the explore response should have the following details:")
     fun theExploreResponseShouldHaveTheFollowingDetails(table: DataTable) {
