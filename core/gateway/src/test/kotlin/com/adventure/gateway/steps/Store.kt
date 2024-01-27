@@ -9,7 +9,7 @@ import io.cucumber.java.en.When
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.And
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
