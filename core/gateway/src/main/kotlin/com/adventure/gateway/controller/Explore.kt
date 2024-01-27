@@ -3,6 +3,8 @@ package com.adventure.gateway.controller
 import com.adventure.apis.cart.Commands.AddProductToCart
 import com.adventure.apis.marketplace.Commands
 import com.adventure.apis.marketplace.QueryResults.ExploreProductsQueryResult
+import com.adventure.apis.marketplace.Requests
+import com.adventure.apis.marketplace.Requests.AddItemToProductRequest
 import com.adventure.gateway.utils.Mappings.ADD_PRODUCT_TO_CART_MAPPING
 import com.adventure.gateway.utils.Mappings.EXPLORE_PRODUCT_MAPPING
 import com.adventure.gateway.utils.Mappings.LIKE_PRODUCT_MAPPING
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import reactor.core.publisher.Mono
 import java.util.*
 
@@ -38,12 +41,12 @@ class Explore (private val command: ReactorCommandGateway) {
     fun addProductToCart(
         @PathVariable("buyer_id") buyerId: UUID,
         @PathVariable("product_id") productId: UUID,
-        quantity: Int
+        @RequestBody request: AddItemToProductRequest
     ): Mono<ResponseEntity<String>> {
         val addProductToCartCommand = AddProductToCart(
             buyerId = buyerId,
             productId = productId,
-            quantity = quantity
+            quantity = request.quantity
         )
         return command.send<ResponseEntity<String>>(addProductToCartCommand)
             .then()
