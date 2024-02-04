@@ -12,3 +12,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+axon:
+  axonserver:
+    servers: localhost:8124
+  serializer:
+    events: jackson
+    general: jackson
+    messages: jackson

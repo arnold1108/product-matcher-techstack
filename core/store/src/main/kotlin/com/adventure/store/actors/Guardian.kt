@@ -2,11 +2,8 @@ package com.adventure.store.actors
 
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.javadsl.Behaviors
-import com.adventure.apis.store.Commands
-import com.adventure.apis.store.Commands.AddStock
 import com.adventure.store.model.Messages
 import com.adventure.store.model.Messages.*
-import com.adventure.store.model.Tasks
 import com.adventure.store.model.Tasks.AddProduct
 import com.adventure.store.model.Tasks.AddStore
 import com.adventure.store.service.ProductService
@@ -65,7 +62,7 @@ class Guardian(
                         }
                             .subscribeOn(Schedulers.immediate())
                     }
-                    is ManageStoreQuery -> {}
+                    is ManageStore -> {}
                 }
                 Behaviors.same()
             }

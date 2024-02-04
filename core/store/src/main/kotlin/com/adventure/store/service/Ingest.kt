@@ -1,9 +1,8 @@
 package com.adventure.store.service
 
-import com.adventure.apis.accounts.Commands
 import com.adventure.apis.store.Commands.AddStock
 import com.adventure.apis.store.Commands.CreateStore
-import com.adventure.apis.store.Queries.ManageStore
+import com.adventure.apis.store.State
 import com.adventure.store.actors.Guardian
 import com.adventure.store.model.Messages.*
 import org.axonframework.commandhandling.CommandHandler
@@ -30,7 +29,7 @@ class Ingest(private val guardian: Guardian) {
     }
     @QueryHandler
     fun handle(query: ManageStore): Any {
-        return guardian.actorSystem.tell(ManageStoreQuery(query))
+        return guardian.actorSystem.tell(query)
     }
 }
 data class StoreDetails(
@@ -47,7 +46,7 @@ class Controller(private val command: ReactorCommandGateway){
         val createStoreCommand = CreateStore(
             storeId = UUID.randomUUID(),
             sellerId = sellerId,
-            category = details.category,
+            category = State.StoreCategory.valueOf(details.category),
             storeName = details.storeName
         )
         return command.send<ResponseEntity<String>>(createStoreCommand)

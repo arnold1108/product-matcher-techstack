@@ -18,6 +18,9 @@ class Commands {
         val productName: String,
         val productCategory: String,
         val productDescription: String,
-        val price: Double
+        val price: Double,
+        val remainingQuantity: Int,
+        val likes: Int,
+        val timeAdded: String
     )
 }
