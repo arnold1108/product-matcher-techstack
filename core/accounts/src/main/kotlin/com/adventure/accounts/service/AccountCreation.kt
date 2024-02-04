@@ -12,17 +12,16 @@ class AccountCreation(
     private val buyerRepository: BuyerRepository,
     private val sellerRepository: SellerRepository
 ) {
-    fun addBuyer(command: CreateBuyerAccount): Mono<String> {
-        val buyerDetails = CreateBuyerAccount(
-            buyerId = command.buyerId,
-            details = UserDetails(
-                firstName = command.details.firstName,
-                lastName = command.details.lastName,
-                dob = command.details.dob,
-                email = command.details.email,
-                gender = command.details.gender,
-                country = command.details.country
-            )
+    fun addBuyer(command: CreateAccount): Mono<String> {
+        val buyerDetails = CreateAccount(
+            userId = command.userId,
+            firstName = command.firstName,
+            lastName = command.lastName,
+            dateOfBirth = command.dateOfBirth,
+            email = command.email,
+            gender = command.gender,
+            country = command.country,
+            role = command.role
         )
 
         return Mono.fromCallable {

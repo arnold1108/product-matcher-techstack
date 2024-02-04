@@ -21,6 +21,8 @@
 		<axon-base.version>4.9.0</axon-base.version>
 		<akka-dependencies.version>23.10.0</akka-dependencies.version>
 		<scala.binary.version>2.13</scala.binary.version>
+		<cucumber.project>7.15.0</cucumber.project>
+		<junit-vintage.version>5.10.1</junit-vintage.version>
 	</properties>
 
 	<repositories>
@@ -112,6 +114,34 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.project}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.project}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>${cucumber.project}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>${junit-vintage.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
