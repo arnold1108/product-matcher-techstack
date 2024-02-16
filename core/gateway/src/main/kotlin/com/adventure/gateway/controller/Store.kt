@@ -2,7 +2,9 @@ package com.adventure.gateway.controller
 
 import com.adventure.apis.store.Commands
 import com.adventure.apis.store.QueryResults
+import com.adventure.apis.store.QueryResults.*
 import com.adventure.apis.store.Requests.*
+import com.adventure.gateway.service.StoreService
 import com.adventure.gateway.utils.Mappings.ADD_STOCK_MAPPING
 import com.adventure.gateway.utils.Mappings.CREATE_STORE_MAPPING
 import com.adventure.gateway.utils.Mappings.MANAGE_STORE_MAPPING
@@ -17,22 +19,17 @@ import reactor.core.publisher.Mono
 import java.util.*
 
 @RestController
-class  Store(private val command: ReactorCommandGateway) {
+class  Store(private val store: StoreService, private val command: ReactorCommandGateway) {
     @PostMapping(CREATE_STORE_MAPPING)
 
     fun createStore(
         @PathVariable("seller_id") sellerId: UUID,
         @RequestBody request: CreateStoreRequest
     ): Mono<ResponseEntity<String>> {
-        val createStoreCommand = Commands.CreateStore(
-            storeId = UUID.randomUUID(),
-            sellerId = sellerId,
-            category = request.category,
-            storeName = request.storeName
-        )
-        return command.send<ResponseEntity<String>>(createStoreCommand)
-            .then()
-            .thenReturn(ResponseEntity.ok("Successfully Created your store"))
+
+        return store.addStore(request = request, sellerId = sellerId)
+            .map { ResponseEntity.ok(it) }
+
     }
 
     @PostMapping(ADD_STOCK_MAPPING)
@@ -41,25 +38,14 @@ class  Store(private val command: ReactorCommandGateway) {
         @PathVariable("store_id") storeId: UUID,
         @RequestBody request: AddStockRequest
     ): Mono<ResponseEntity<String>> {
-        val addStockCommand = Commands.AddStock(
-            sellerId = sellerId,
-            storeId = storeId,
-            productId = UUID.randomUUID(),
-            productName = request.productName,
-            productCategory = request.productCategory,
-            productDescription = request.productDescription,
-            price = request.price,
-            remainingQuantity = request.quantity,
-            likes = request.likes,
-            timeAdded = request.timeAdded
-        )
-        return command.send<ResponseEntity<String>>(addStockCommand)
-            .then()
-            .thenReturn(ResponseEntity.ok("${request.productName} Added"))
+
+        return store.addStock(request = request, storeId = storeId, sellerId = sellerId)
+            .map {ResponseEntity.ok(it)}
     }
 
     @GetMapping(MANAGE_STORE_MAPPING)
-    fun manageStore(@PathVariable("store_id") storeId: UUID): Mono<ResponseEntity<QueryResults.ManageStoreQueryResults>> {
-        TODO()
+    fun manageStore(@PathVariable("store_id") storeId: UUID): Mono<ResponseEntity<ManageStoreQueryResults>> {
+        return store.getStoreById(storeId = storeId)
+            .map { ResponseEntity.ok(it) }
     }
 }

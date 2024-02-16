@@ -9,10 +9,7 @@ import reactor.core.publisher.Mono
 import java.util.*
 
 @RestController
-class Cart(
-    private val command: ReactorCommandGateway,
-    private val cartService: CartService
-) {
+class Cart(private val cartService: CartService) {
     @GetMapping(Mappings.VIEW_CART_MAPPING)
     fun viewCart(@PathVariable("buyer_id") buyerId: UUID) = ResponseEntity.ok(cartService.fetchCartById(buyerId))
 
@@ -25,7 +22,7 @@ class Cart(
         return cartService.removeProductFromCart(buyerId = buyerId, productId = productId)
             .map { ResponseEntity.ok(it) }
     }
-    
+
     @PostMapping(Mappings.CHECKOUT_MAPPING)
     fun checkout(@PathVariable("buyer_id") buyerId: UUID): Mono<ResponseEntity<String>> {
         return cartService.checkout(buyerId = buyerId)

@@ -1,7 +1,6 @@
 package com.adventure.gateway.service
 
 import com.adventure.apis.cart.Commands
-import com.adventure.apis.cart.Queries
 import com.adventure.apis.cart.Queries.ViewCart
 import com.adventure.apis.cart.QueryResults.*
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway

@@ -4,6 +4,6 @@ import java.util.*
 
 class Queries {
     data class ManageStoreQuery(
-        val sellerId: UUID
+        val storeId: UUID
     )
 }
