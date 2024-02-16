@@ -37,7 +37,7 @@ class AccountManagement {
                 firstName = column["first_name"]!!,
                 lastName = column["last_name"]!!,
                 dob = LocalDate.parse(column["date_of_birth"]!!),
-                email = column["email_address"]!!,
+                emailAddress = column["email_address"]!!,
                 gender = column["gender"]!!,
                 country = column["country"]!!,
                 role = column["role"]!!,

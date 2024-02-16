@@ -3,7 +3,9 @@ package com.adventure.gateway.controller
 import com.adventure.apis.store.Commands
 import com.adventure.apis.store.QueryResults
 import com.adventure.apis.store.Requests.*
-import com.adventure.gateway.utils.Mappings
+import com.adventure.gateway.utils.Mappings.ADD_STOCK_MAPPING
+import com.adventure.gateway.utils.Mappings.CREATE_STORE_MAPPING
+import com.adventure.gateway.utils.Mappings.MANAGE_STORE_MAPPING
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,8 +17,9 @@ import reactor.core.publisher.Mono
 import java.util.*
 
 @RestController
-class Store(private val command: ReactorCommandGateway) {
-    @PostMapping(Mappings.CREATE_STORE_MAPPING)
+class  Store(private val command: ReactorCommandGateway) {
+    @PostMapping(CREATE_STORE_MAPPING)
+
     fun createStore(
         @PathVariable("seller_id") sellerId: UUID,
         @RequestBody request: CreateStoreRequest
@@ -32,7 +35,7 @@ class Store(private val command: ReactorCommandGateway) {
             .thenReturn(ResponseEntity.ok("Successfully Created your store"))
     }
 
-    @PostMapping(Mappings.ADD_STOCK_MAPPING)
+    @PostMapping(ADD_STOCK_MAPPING)
     fun addStock(
         @PathVariable("seller_id") sellerId: UUID,
         @PathVariable("store_id") storeId: UUID,
@@ -45,14 +48,17 @@ class Store(private val command: ReactorCommandGateway) {
             productName = request.productName,
             productCategory = request.productCategory,
             productDescription = request.productDescription,
-            price = request.price
+            price = request.price,
+            remainingQuantity = request.quantity,
+            likes = request.likes,
+            timeAdded = request.timeAdded
         )
         return command.send<ResponseEntity<String>>(addStockCommand)
             .then()
             .thenReturn(ResponseEntity.ok("${request.productName} Added"))
     }
 
-    @GetMapping(Mappings.MANAGE_STORE_MAPPING)
+    @GetMapping(MANAGE_STORE_MAPPING)
     fun manageStore(@PathVariable("store_id") storeId: UUID): Mono<ResponseEntity<QueryResults.ManageStoreQueryResults>> {
         TODO()
     }

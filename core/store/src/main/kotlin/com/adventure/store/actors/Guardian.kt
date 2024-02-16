@@ -19,6 +19,7 @@ class Guardian(
     storeService: StoreService,
     productService: ProductService
 ) {
+
     val actorSystem: ActorSystem<Messages> = ActorSystem.create(
         Behaviors.setup { context ->
             val stocker =
@@ -27,6 +28,7 @@ class Guardian(
             Behaviors.receiveMessage<Messages> {message ->
                 when(message) {
                     is AddStoreCommand -> {
+
                         storeCreator.tell(
                             AddStore(
                                 messageId = UUID.randomUUID(),

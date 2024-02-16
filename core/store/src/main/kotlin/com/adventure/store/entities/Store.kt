@@ -7,9 +7,9 @@ import java.util.*
 
 @Table("stores")
 data class Store(
-    @PrimaryKey @Column("store_id")val storeId: UUID,
-    @Column("seller_id") val sellerId: UUID,
-    @Column("category") val category: String,
-    @Column("store_name") val storeName: String,
-    @Column("products") val products: Set<UUID> = emptySet()
+    @PrimaryKey
+    val storeId: UUID,
+    val sellerId: UUID,
+    val category: String,
+    val storeName: String
 )

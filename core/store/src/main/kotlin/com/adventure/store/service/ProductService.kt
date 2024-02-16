@@ -21,9 +21,10 @@ class ProductService(private val productRepository: ProductRepository) {
             likes = command.likes,
             timeAdded = command.timeAdded
         )
-        return Mono.fromCallable {
-            productRepository.addStock(productDetails)
-            "Successfully added product ${productDetails.productId}"
-        }
+
+        return productRepository.addStock(productDetails)
+            .then()
+            .thenReturn("Successfully added product ${productDetails.productId}")
+            .log("Added product ${productDetails.productId}")
     }
 }

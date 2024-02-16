@@ -1,6 +1,5 @@
 package com.adventure.apis.accounts
 
-import com.adventure.apis.accounts.State.*
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
 
@@ -13,7 +12,7 @@ class Requests {
         @JsonProperty("date_of_birth")
         val dob: LocalDate,
         @JsonProperty("email_address")
-        val email: String,
+        val emailAddress: String,
         @JsonProperty("gender")
         val gender: String,
         @JsonProperty("country")

@@ -7,7 +7,7 @@ class Commands {
     data class CreateStore(
         val storeId: UUID,
         val sellerId: UUID,
-        val category: StoreCategory,
+        val category: String,
         val storeName: String,
     )
 

@@ -10,6 +10,7 @@ import com.adventure.store.model.Messages.StoreAddedFeedback
 import com.adventure.store.model.Tasks
 import com.adventure.store.model.Tasks.AddStore
 import com.adventure.store.service.StoreService
+import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 
@@ -30,7 +31,6 @@ class StoreCreator(
             .onMessage(AddStore::class.java) {task ->
                 storeService.addStore(task.command)
                     .doOnSuccess { feedback ->
-                        context.log.info(feedback)
                         task.replyTo.tell(
                             StoreAddedFeedback(
                                 task.messageId,
@@ -41,7 +41,7 @@ class StoreCreator(
                     .doOnError { error ->
                         context.log.error("unable to handle task: ${error.message}")
                     }
-                    .subscribeOn(Schedulers.immediate())
+                    .subscribe()
                 Behaviors.same()
             }
             .build()

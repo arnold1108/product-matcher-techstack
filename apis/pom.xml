@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.adventure</groupId>
 	<artifactId>apis</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>apis</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -61,7 +61,6 @@
 
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

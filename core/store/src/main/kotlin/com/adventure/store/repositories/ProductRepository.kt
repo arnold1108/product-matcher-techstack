@@ -4,6 +4,7 @@ import com.adventure.apis.store.Commands.*
 import com.adventure.store.entities.Product
 import org.springframework.data.cassandra.repository.Query
 import org.springframework.data.repository.CrudRepository
+import reactor.core.publisher.Mono
 import java.util.UUID
 
 interface ProductRepository: CrudRepository<Product, UUID> {
@@ -11,7 +12,9 @@ interface ProductRepository: CrudRepository<Product, UUID> {
             "VALUES (:#{#details.productId}, :#{#details.sellerId}, :#{#details.storeId}, :#{#details.productName}, " +
             ":#{#details.productCategory}, :#{#details.productDescription}, :#{#details.price}, :#{#details.remainingQuantity}, " +
             ":#{#details.likes}, :#{#details.timeAdded})")
-    fun addStock(details: AddStock)
+    fun addStock(details: AddStock): Mono<Void> {
+        return Mono.empty()
+    }
     @Query("UPDATE products SET likes = likes + 1 WHERE product_id =?0")
     fun likeProduct(productId: UUID)
 

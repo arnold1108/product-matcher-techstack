@@ -8,7 +8,7 @@ class Requests {
         @JsonProperty("store_name")
         val storeName: String,
         @JsonProperty("category")
-        val category: StoreCategory
+        val category: String
     )
 
     data class AddStockRequest(
@@ -21,6 +21,11 @@ class Requests {
         @JsonProperty("quantity")
         val quantity: Int,
         @JsonProperty("price")
-        val price: Double
+        val price: Double,
+        @JsonProperty("likes")
+        val likes: Int,
+        @JsonProperty("time_added")
+        val timeAdded: String
+
     )
 }

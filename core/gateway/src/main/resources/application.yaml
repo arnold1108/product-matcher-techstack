@@ -6,6 +6,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  security:
+    oauth2:
+
+
+
 axon:
   axonserver:
     servers: localhost:8124
