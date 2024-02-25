@@ -7,7 +7,7 @@ spring:
     max-in-memory-size: 3MB
   cassandra:
     local-datacenter: datacenter1
-    keyspace-name: store_svc
+    keyspace-name: marketplace_svc
     schema-action: create_if_not_exists
     request:
       timeout: 10s
