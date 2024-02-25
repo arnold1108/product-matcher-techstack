@@ -1,8 +1,8 @@
 server:
-  port: 8180
+  port: 8380
 spring:
   application:
-    name: ACCOUNTS-SVC
+    name: MARKETPLACE-SVC
   codec:
     max-in-memory-size: 3MB
   datasource:
