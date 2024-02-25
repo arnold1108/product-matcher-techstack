@@ -5,13 +5,15 @@ spring:
     name: MARKETPLACE-SVC
   codec:
     max-in-memory-size: 3MB
-  datasource:
-    password: opiyo123
-    username: adventure
-    url: jdbc:postgresql://localhost:5432/product_matcher
-  jpa:
-    hibernate:
-      ddl-auto: update
+  cassandra:
+    local-datacenter: datacenter1
+    keyspace-name: store_svc
+    schema-action: create_if_not_exists
+    request:
+      timeout: 10s
+    connection:
+      connect-timeout: 10s
+      init-query-timeout: 10s
 axon:
   axonserver:
     servers: localhost:8124
