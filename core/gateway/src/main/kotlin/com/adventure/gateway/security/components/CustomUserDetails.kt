@@ -1,6 +1,6 @@
 package com.adventure.gateway.security.components
 
-import com.adventure.gateway.security.dao.User
+import com.adventure.gateway.security.dao.entity.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 

@@ -1,4 +1,4 @@
-package com.adventure.gateway.security.dao
+package com.adventure.gateway.security.dao.entity
 
 import com.adventure.apis.accounts.State
 import jakarta.persistence.Column

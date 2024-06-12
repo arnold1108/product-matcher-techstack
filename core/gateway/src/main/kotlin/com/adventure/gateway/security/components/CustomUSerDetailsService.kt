@@ -1,6 +1,6 @@
 package com.adventure.gateway.security.components
 
-import com.adventure.gateway.security.dao.UserRepository
+import com.adventure.gateway.security.dao.repository.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
