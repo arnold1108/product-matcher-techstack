@@ -6,6 +6,8 @@ import com.adventure.gateway.service.AuthService
 import com.adventure.gateway.utils.Mappings.LOGIN_MAPPING
 import com.adventure.gateway.utils.Mappings.LOGOUT_MAPPING
 import com.adventure.gateway.utils.Mappings.SIGNUP_MAPPING
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,7 +27,7 @@ class Auth(private val auth: AuthService) {
     }
 
     @PostMapping(LOGOUT_MAPPING)
-    fun logout() {
-        ResponseEntity.ok(auth.logout())
+    fun logout(request: HttpServletRequest, response: HttpServletResponse) {
+        ResponseEntity.ok(auth.logout(request, response))
     }
 }

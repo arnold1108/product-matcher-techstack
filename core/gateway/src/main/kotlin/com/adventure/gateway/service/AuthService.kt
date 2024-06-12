@@ -6,19 +6,25 @@ import com.adventure.apis.auth.Requests.SignupRequest
 import com.adventure.gateway.security.components.CustomAuthenticationProvider
 import com.adventure.gateway.security.dao.entity.Users
 import com.adventure.gateway.security.dao.repository.UserRepository
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.authentication.logout.LogoutHandler
 import org.springframework.stereotype.Service
 import java.util.*
 import javax.security.auth.login.AccountException
+import kotlin.math.log
 
 @Service
 class AuthService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val authenticationProvider: CustomAuthenticationProvider
+    private val authenticationProvider: CustomAuthenticationProvider,
+    private val logoutHandler: LogoutHandler
 ) {
 
     fun accountExists(emailAddress: String): Boolean {
@@ -55,5 +61,13 @@ class AuthService(
             requestBody.password
         )
         return authenticationProvider.authenticate(authentication)
+    }
+
+    fun logout(request: HttpServletRequest, response: HttpServletResponse): String {
+        val authentication = SecurityContextHolder.getContext().authentication
+        if (authentication != null) {
+            logoutHandler.logout(request, response, authentication)
+        }
+        return "Logged out successfully"
     }
 }

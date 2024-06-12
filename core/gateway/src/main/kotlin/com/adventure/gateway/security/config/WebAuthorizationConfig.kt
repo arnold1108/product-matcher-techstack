@@ -15,7 +15,7 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 
 @Configuration
 @EnableMethodSecurity
-open class WeAuthorizationConfig(
+open class WebAuthorizationConfig(
     private val authenticationProvider: CustomAuthenticationProvider,
     private val tokenRepository: CustomCsrfTokenRepository
 ) {
@@ -25,14 +25,20 @@ open class WeAuthorizationConfig(
             .formLogin(Customizer.withDefaults())
             .authenticationProvider(authenticationProvider)
             .csrf {
-                it.csrfTokenRepository(tokenRepository)
-                it.csrfTokenRequestHandler(CsrfTokenRequestAttributeHandler())  // generates a new token during a GET request
+                it
+                    .csrfTokenRepository(tokenRepository)
+                    .csrfTokenRequestHandler(CsrfTokenRequestAttributeHandler())  // generates a new token during a GET request
             }
             .authorizeHttpRequests {
                 it
                     .requestMatchers("/auth/**").permitAll()
                     .requestMatchers("/store").hasRole(State.Role.SELLER.value)
                     .anyRequest().authenticated()
+            }
+            .logout {
+                it
+                    .logoutUrl("/auth/logout")
+                    .logoutSuccessHandler {_, _, _ ->}
             }
         return httpSecurity.build()
     }
