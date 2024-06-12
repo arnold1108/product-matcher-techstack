@@ -3,11 +3,13 @@ package com.adventure.gateway.security.config
 import com.adventure.apis.accounts.State
 import com.adventure.gateway.security.components.CustomAuthenticationProvider
 import com.adventure.gateway.security.components.CustomCsrfTokenRepository
+import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 
@@ -34,6 +36,13 @@ open class WeAuthorizationConfig(
             }
         return httpSecurity.build()
     }
-    
+
+    @Bean
+    open fun initializingBean(): InitializingBean {
+        return InitializingBean {
+            SecurityContextHolder
+                .setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL)
+        }
+    }
 
 }
