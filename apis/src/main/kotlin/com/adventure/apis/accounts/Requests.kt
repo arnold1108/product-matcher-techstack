@@ -11,14 +11,11 @@ class Requests {
         val lastName: String,
         @JsonProperty("date_of_birth")
         val dob: LocalDate,
-        @JsonProperty("email_address")
-        val emailAddress: String,
         @JsonProperty("gender")
         val gender: String,
         @JsonProperty("country")
         val country: String,
-        @JsonProperty("role")
-        val role: String
+
     )
 
 }

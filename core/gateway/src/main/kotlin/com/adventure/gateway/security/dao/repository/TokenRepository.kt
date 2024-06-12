@@ -8,5 +8,5 @@ import java.util.*
 @Repository
 interface TokenRepository: JpaRepository<Tokens, UUID> {
     fun findTokenByIdentifier(identifier: String): Optional<Tokens>
-    fun existsByUserName(userName: String): Boolean
+
 }

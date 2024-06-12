@@ -1,10 +1,10 @@
 package com.adventure.gateway.security.components
 
-import com.adventure.gateway.security.dao.entity.User
+import com.adventure.gateway.security.dao.entity.Users
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-class CustomUserDetails(private val user: User): UserDetails {
+class CustomUserDetails(private val user: Users): UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return mutableListOf(
             GrantedAuthority { user.role.value }

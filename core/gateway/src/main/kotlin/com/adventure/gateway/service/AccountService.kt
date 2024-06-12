@@ -12,7 +12,7 @@ import java.util.*
 @Service
 class AccountService(
     private val command: ReactorCommandGateway,
-    private val auth: AuthenticationService
+    private val auth: AuthService
 ) {
 
     fun registerUser(request: CreateAccountRequest): Mono<String> {

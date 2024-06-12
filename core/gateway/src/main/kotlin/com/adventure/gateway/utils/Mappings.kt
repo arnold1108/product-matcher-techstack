@@ -3,6 +3,10 @@ package com.adventure.gateway.utils
 object Mappings {
     private const val REQUEST_MAPPING = "/soko"
 
+    const val SIGNUP_MAPPING = "$REQUEST_MAPPING/auth/signUp"
+    const val LOGIN_MAPPING = "$REQUEST_MAPPING/auth/login"
+    const val LOGOUT_MAPPING = "$REQUEST_MAPPING/auth/logout"
+
     const val ACCOUNT_CREATION_MAPPING = "$REQUEST_MAPPING/accounts/create"
 
     const val CREATE_STORE_MAPPING = "$REQUEST_MAPPING/{seller_id}/stores/create"
