@@ -30,6 +30,8 @@ class Users {
 
         }
     }
+
+    fun updatePassword(newPassword: String) = Users().apply { this.password = newPassword }
 }
 
 enum class Role(val value: String) {

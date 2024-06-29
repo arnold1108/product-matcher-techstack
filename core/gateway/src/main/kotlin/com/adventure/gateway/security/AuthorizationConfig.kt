@@ -21,6 +21,7 @@ class AuthorizationConfig(private val jwtAuthenticationConverter: JwtAuthenticat
                 it.requestMatchers("/auth").permitAll()
                     .anyRequest().authenticated()
             }
+            .oauth2Login {  }
             .oauth2ResourceServer {
                 it.jwt { token ->
                     token.jwkSetUri(keySetUri)

@@ -9,9 +9,6 @@ import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.core.Authentication
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.oauth2.core.OAuth2AccessToken
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext
@@ -22,7 +19,9 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 
 @Configuration
 @EnableMethodSecurity
-class SecurityConfig(private val customAuthenticationSuccessHandler: CustomAuthenticationSuccessHandler) {
+class SecurityConfig(
+    private val customAuthenticationSuccessHandler: CustomAuthenticationSuccessHandler
+) {
 
     @Bean
     @Order(1)
@@ -44,6 +43,11 @@ class SecurityConfig(private val customAuthenticationSuccessHandler: CustomAuthe
         return httpSecurity
             .formLogin{
                 it.successHandler(customAuthenticationSuccessHandler)
+            }
+            .logout {
+                it.logoutSuccessHandler { _, response, _ ->
+                    response.sendRedirect("/login")
+                }
             }
             .authorizeHttpRequests {
                 it.requestMatchers("/auth").permitAll()
