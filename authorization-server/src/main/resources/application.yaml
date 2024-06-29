@@ -1,23 +1,22 @@
 server:
-  port: 8080
+  port: 7070
 spring:
   application:
-    name: GATEWAY-SVC
-  jpa:
-    hibernate:
-      ddl-auto: update
-  security:
-    oauth2:
+    name: AUTHORIZATION-SERVER
   datasource:
     url: jdbc:postgresql://localhost:55000/test
     username: test
     password: test
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
   axon:
     axonserver:
       servers: localhost:8124
+      enabled: true
     serializer:
+      messages: jackson
       events: jackson
       general: jackson
-      messages: jackson
-
-keySetUri: http://localhost:7070/oauth2/jwks

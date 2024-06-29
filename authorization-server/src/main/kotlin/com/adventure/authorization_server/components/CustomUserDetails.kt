@@ -1,22 +1,27 @@
-package com.adventure.gateway.security.components
+package com.adventure.authorization_server.components
 
-import com.adventure.gateway.security.dao.entity.Users
+import com.adventure.authorization_server.dao.entity.Users
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.util.UUID
 
-class CustomUserDetails(private val user: Users): UserDetails {
+class CustomUserDetails(private val users: Users): UserDetails {
+
+    fun getUserId(): UUID {
+        return users.principalId
+    }
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return mutableListOf(
-            GrantedAuthority { user.role.value }
+            GrantedAuthority { users.role.value }
         )
     }
 
     override fun getPassword(): String {
-        return user.password
+        return users.password
     }
 
     override fun getUsername(): String {
-        return user.userName
+        return users.userName
     }
 
     override fun isAccountNonExpired(): Boolean {

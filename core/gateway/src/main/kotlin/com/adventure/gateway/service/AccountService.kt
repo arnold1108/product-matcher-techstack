@@ -18,24 +18,25 @@ class AccountService(
     fun registerUser(request: CreateAccountRequest): Mono<String> {
 //        Check if the account exists
 
-        val exists = auth.accountExists(request.emailAddress)
-
-        val createBuyerAccountCommand = Commands.CreateAccount(
-            userId = UUID.randomUUID(),
-            firstName = request.firstName,
-            lastName = request.lastName,
-            dateOfBirth = request.dob,
-            email = request.emailAddress,
-            gender = request.gender,
-            country = request.country,
-            role = request.role
-        )
-
-        if (!exists) throw AccountNotFoundException(request.emailAddress)
-        else {
-            return command.send<ResponseEntity<String>>(createBuyerAccountCommand)
-                .thenReturn("Welcome to Soko!")
-        }
+//        val exists = auth.accountExists(request.emailAddress)
+//
+//        val createBuyerAccountCommand = Commands.CreateAccount(
+//            userId = UUID.randomUUID(),
+//            firstName = request.firstName,
+//            lastName = request.lastName,
+//            dateOfBirth = request.dob,
+//            email = request.emailAddress,
+//            gender = request.gender,
+//            country = request.country,
+//            role = request.role
+//        )
+//
+//        if (!exists) throw AccountNotFoundException(request.emailAddress)
+//        else {
+//            return command.send<ResponseEntity<String>>(createBuyerAccountCommand)
+//                .thenReturn("Welcome to Soko!")
+//        }
+        TODO()
 
     }
 }
