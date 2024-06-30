@@ -3,7 +3,7 @@ package com.adventure.apis.marketplace
 import java.util.*
 
 class QueryResults {
-    data class ExploreProductsQueryResult(
+    data class ExploreProductsProjection(
         val recommendedProducts: List<RecommendedProducts>
     )
     data class RecommendedProducts(

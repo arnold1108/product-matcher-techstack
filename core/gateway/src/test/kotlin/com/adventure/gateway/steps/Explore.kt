@@ -36,7 +36,7 @@ class Explore {
             .get()
             .uri(Mappings.EXPLORE_PRODUCT_MAPPING, buyerId)
             .exchange()
-            .expectBody(ExploreProductsQueryResult::class.java)
+            .expectBody(ExploreProductsProjection::class.java)
             .returnResult()
     }
 
@@ -88,7 +88,7 @@ class Explore {
 
     @And("the explore response should have the following details:")
     fun theExploreResponseShouldHaveTheFollowingDetails(table: DataTable) {
-        val actualResult = response.responseBody as ExploreProductsQueryResult
+        val actualResult = response.responseBody as ExploreProductsProjection
         val expectedResult = table.asMaps(String::class.java, String::class.java)
 
         for (column: Map<String, String> in expectedResult) {

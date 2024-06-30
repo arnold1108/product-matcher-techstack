@@ -5,6 +5,7 @@ import com.adventure.apis.store.Queries.*
 import com.adventure.apis.store.QueryResults.ManageStoreProjection
 import com.adventure.apis.store.Requests.AddStockRequest
 import com.adventure.apis.store.Requests.CreateStoreRequest
+import com.adventure.gateway.utils.Authorizations.STORE_BELONGS_TO_THE_AUTHENTICATED_USER
 import com.adventure.gateway.utils.SecurityUtils.extractPrincipalDetails
 import kotlinx.coroutines.reactive.awaitLast
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -55,7 +56,7 @@ class StoreService(
         return "${request.productName} added"
     }
 
-    @PostAuthorize("returnObject.sellerId == principal.extractPrincipalId()")
+    @PostAuthorize(STORE_BELONGS_TO_THE_AUTHENTICATED_USER)
     suspend fun getStoreById(storeId: UUID): ManageStoreProjection {
         return query.streamingQuery(
             ManageStoreQuery(storeId = storeId),

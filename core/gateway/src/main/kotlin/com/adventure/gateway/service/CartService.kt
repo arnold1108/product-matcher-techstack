@@ -1,9 +1,10 @@
 package com.adventure.gateway.service
 
-import com.adventure.apis.cart.Commands.Checkout
-import com.adventure.apis.cart.Commands.RemoveProductFromCart
+import com.adventure.apis.cart.Commands.*
 import com.adventure.apis.cart.Queries.ViewCart
 import com.adventure.apis.cart.QueryResults.*
+import com.adventure.gateway.utils.Authorizations.BUYER_IS_THE_AUTHENTICATED_USER
+import com.adventure.gateway.utils.Authorizations.CART_BELONGS_TO_THE_AUTHENTICATED_USER
 import com.adventure.gateway.utils.SecurityUtils.extractPrincipalDetails
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.queryhandling.QueryGateway
@@ -20,7 +21,20 @@ class CartService(
 ) {
     private val authentication = SecurityContextHolder.getContext().authentication
 
-    @PostAuthorize("returnObject.buyerId == principal.extractPrincipalId()")
+    fun addProductToCart(productId: UUID, quantity: Int): String {
+        val principal = extractPrincipalDetails(authentication = authentication)
+        command.send<Void>(
+            AddProductToCart(
+                buyerId = principal.principalId,
+                productId = productId,
+                quantity = quantity
+            )
+        )
+
+        return "You have added $quantity products to cart"
+    }
+
+    @PostAuthorize(CART_BELONGS_TO_THE_AUTHENTICATED_USER)
     fun fetchCartById(buyerId: UUID): ViewCartQueryResult =
         query.query(ViewCart(buyerId = buyerId), ViewCartQueryResult::class.java).get()
 
@@ -36,13 +50,14 @@ class CartService(
         return "Product removed from Cart"
     }
 
-    @PreAuthorize("buyerId == principal.extractPrincipalId()")
+    @PreAuthorize(BUYER_IS_THE_AUTHENTICATED_USER)
     fun checkout(buyerId: UUID): String {
         command.send<Void>(
             Checkout(
                 buyerId = buyerId
             )
         )
+
         return "Enjoy!"
     }
 }
