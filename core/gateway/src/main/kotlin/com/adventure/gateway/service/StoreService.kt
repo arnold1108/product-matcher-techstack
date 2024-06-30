@@ -1,57 +1,70 @@
 package com.adventure.gateway.service
 
-import com.adventure.apis.store.Commands
-import com.adventure.apis.store.Queries
+import com.adventure.apis.store.Commands.*
 import com.adventure.apis.store.Queries.*
-import com.adventure.apis.store.QueryResults
-import com.adventure.apis.store.QueryResults.ManageStoreQueryResults
-import com.adventure.apis.store.Requests
+import com.adventure.apis.store.QueryResults.ManageStoreProjection
 import com.adventure.apis.store.Requests.AddStockRequest
 import com.adventure.apis.store.Requests.CreateStoreRequest
-import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
-import org.axonframework.extensions.reactor.queryhandling.gateway.ReactorQueryGateway
-import org.springframework.http.ResponseEntity
+import com.adventure.gateway.utils.SecurityUtils.extractPrincipalDetails
+import kotlinx.coroutines.reactive.awaitLast
+import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.queryhandling.QueryGateway
+import org.springframework.security.access.prepost.PostAuthorize
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import reactor.core.publisher.Mono
 import java.util.*
 
 @Service
 class StoreService(
-    private val command: ReactorCommandGateway,
-    private val query: ReactorQueryGateway
+    private val command: CommandGateway,
+    private val query: QueryGateway
 ) {
 
-    fun addStore(request: CreateStoreRequest, sellerId: UUID): Mono<String> {
-        val createStoreCommand = Commands.CreateStore(
-            storeId = UUID.randomUUID(),
-            sellerId = sellerId,
-            category = request.category,
-            storeName = request.storeName
+    private val authentication = SecurityContextHolder.getContext().authentication
+    fun addStore(request: CreateStoreRequest): String {
+        val principal = extractPrincipalDetails(authentication = authentication)
+        command.send<Void>(
+            CreateStore(
+                storeId = UUID.randomUUID(),
+                sellerId = principal.principalId,
+                category = request.category,
+                storeName = request.storeName
+            )
         )
-        return command.send<ResponseEntity<String>>(createStoreCommand)
-            .thenReturn("Successfully Created your store")
+
+        return "${request.storeName} added "
     }
 
-    fun addStock(request: AddStockRequest, sellerId: UUID, storeId: UUID): Mono<String> {
-        val addStockCommand = Commands.AddStock(
-            sellerId = sellerId,
-            storeId = storeId,
-            productId = UUID.randomUUID(),
-            productName = request.productName,
-            productCategory = request.productCategory,
-            productDescription = request.productDescription,
-            price = request.price,
-            remainingQuantity = request.quantity,
-            likes = request.likes,
-            timeAdded = request.timeAdded
+    fun addStock(request: AddStockRequest, storeId: UUID): String {
+        val principal = extractPrincipalDetails(authentication = authentication)
+        command.send<Void>(
+            AddStock(
+                sellerId = principal.principalId,
+                storeId = storeId,
+                productId = UUID.randomUUID(),
+                productName = request.productName,
+                productCategory = request.productCategory,
+                productDescription = request.productDescription,
+                price = request.price,
+                remainingQuantity = request.quantity,
+                likes = request.likes,
+                timeAdded = request.timeAdded
+            )
         )
-        return command.send<ResponseEntity<String>>(addStockCommand)
-            .thenReturn("${request.productName} Added")
+
+        return "${request.productName} added"
     }
 
-    fun getStoreById(storeId: UUID): Mono<ManageStoreQueryResults> {
-        val projection = ManageStoreQueryResults::class.java
-        return query.query(ManageStoreQuery(storeId = storeId), projection)
+    @PostAuthorize("returnObject.sellerId == principal.extractPrincipalId()")
+    suspend fun getStoreById(storeId: UUID): ManageStoreProjection {
+        return query.streamingQuery(
+            ManageStoreQuery(storeId = storeId),
+            ManageStoreProjection::class.java
+        ).awaitLast()
+    }
+
+    fun getNotification() {
+        TODO("Notifications functionality not yet implemented")
     }
 
 }

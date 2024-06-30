@@ -18,7 +18,7 @@
 		<java.version>21</java.version>
 		<apis.version>0.0.1</apis.version>
 		<kotlin.version>1.9.24</kotlin.version>
-		<axon-starter.version>4.9.1</axon-starter.version>
+		<axon-starter.version>4.9.3</axon-starter.version>
 		<axon-base.version>4.9.0</axon-base.version>
 		<springfox.version>3.0.0</springfox.version>
 		<cucumber.project>7.15.0</cucumber.project>
@@ -52,9 +52,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.axonframework.extensions.reactor</groupId>
-			<artifactId>axon-reactor-spring-boot-starter</artifactId>
-			<version>${axon-base.version}</version>
+			<groupId>org.axonframework</groupId>
+			<artifactId>axon-modelling</artifactId>
+			<version>${axon-starter.version}</version>
 		</dependency>
 
 		<dependency>

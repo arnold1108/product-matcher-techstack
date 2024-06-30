@@ -12,10 +12,7 @@ import reactor.core.publisher.Mono
 @RestController
 class Account (private val account: AccountService){
     @PostMapping(ACCOUNT_CREATION_MAPPING)
-    fun createUserAccount( @RequestBody request: CreateAccountRequest): Mono<ResponseEntity<String>>  {
-
-        return account.registerUser(request)
-            .map { ResponseEntity.ok(it) }
-
+    fun completeSignup(@RequestBody request: CompleteSignupRequest): ResponseEntity<String>  {
+        return ResponseEntity.ok(account.registerAccount(request))
     }
 }

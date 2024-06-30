@@ -26,21 +26,19 @@ class AccountManagement {
     private lateinit var webTestClient: WebTestClient
     @MockBean
     private lateinit var commandGateway: ReactorCommandGateway
-    private var createAccountRequest: CreateAccountRequest? = null
+    private var createAccountRequest: CompleteSignupRequest? = null
     private lateinit var response: EntityExchangeResult<String>
 
     @When("a user sends a requests to create an account with the following details:")
     fun aUserSendsARequestsToCreateAnAccountWithTheFollowingDetails(details: DataTable) {
         val rows = details.asMaps(String::class.java, String::class.java)
         for (column: Map<String, String> in rows) {
-            createAccountRequest = CreateAccountRequest(
+            createAccountRequest = CompleteSignupRequest(
                 firstName = column["first_name"]!!,
                 lastName = column["last_name"]!!,
                 dob = LocalDate.parse(column["date_of_birth"]!!),
-                emailAddress = column["email_address"]!!,
                 gender = column["gender"]!!,
                 country = column["country"]!!,
-                role = column["role"]!!,
             )
         }
     }

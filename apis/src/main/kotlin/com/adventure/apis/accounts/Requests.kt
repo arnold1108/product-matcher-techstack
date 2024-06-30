@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
 
 class Requests {
-    data class CreateAccountRequest(
+    data class CompleteSignupRequest(
         @JsonProperty("first_name")
         val firstName: String,
         @JsonProperty("last_name")
@@ -15,7 +15,6 @@ class Requests {
         val gender: String,
         @JsonProperty("country")
         val country: String,
-
     )
 
 }

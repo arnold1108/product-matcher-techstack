@@ -1,19 +1,22 @@
 package com.adventure.apis.store
 
 import com.adventure.apis.store.State.StoreCategory
+import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.util.UUID
 
 class Commands {
     data class CreateStore(
+        @TargetAggregateIdentifier
         val storeId: UUID,
         val sellerId: UUID,
-        val category: String,
+        val category: StoreCategory,
         val storeName: String,
     )
 
     data class AddStock(
-        val sellerId: UUID,
+        @TargetAggregateIdentifier
         val storeId: UUID,
+        val sellerId: UUID,
         val productId: UUID,
         val productName: String,
         val productCategory: String,

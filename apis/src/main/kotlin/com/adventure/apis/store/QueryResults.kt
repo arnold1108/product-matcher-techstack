@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 class QueryResults {
-    data class ManageStoreQueryResults(
+    data class ManageStoreProjection(
         val storeId: UUID,
         val sellerId: UUID,
         val storeName: String,
