@@ -19,8 +19,8 @@ class StoreService(
     private val command: CommandGateway,
     private val query: QueryGateway
 ) {
-
     private val authentication = SecurityContextHolder.getContext().authentication
+
     fun addStore(request: CreateStoreRequest): String {
         val principal = extractPrincipalDetails(authentication = authentication)
         command.send<Void>(

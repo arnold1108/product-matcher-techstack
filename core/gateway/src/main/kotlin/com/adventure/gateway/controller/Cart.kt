@@ -1,33 +1,31 @@
 package com.adventure.gateway.controller
 
 import com.adventure.gateway.service.CartService
-import com.adventure.gateway.utils.Mappings
-import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
+import com.adventure.gateway.utils.Mappings.CHECKOUT_MAPPING
+import com.adventure.gateway.utils.Mappings.REMOVE_PRODUCT_FROM_CART_MAPPING
+import com.adventure.gateway.utils.Mappings.VIEW_CART_MAPPING
+import com.adventure.gateway.utils.Roles.BUYER_ROLE
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
-import reactor.core.publisher.Mono
 import java.util.*
 
 @RestController
 class Cart(private val cartService: CartService) {
-    @GetMapping(Mappings.VIEW_CART_MAPPING)
-    fun viewCart(@PathVariable("buyer_id") buyerId: UUID) = ResponseEntity.ok(cartService.fetchCartById(buyerId))
 
-    @DeleteMapping(Mappings.REMOVE_PRODUCT_FROM_CART_MAPPING)
-    fun removeProductFromCart(
-        @PathVariable("product_id") productId: UUID,
-        @PathVariable("buyer_id") buyerId: UUID
-    ): Mono<ResponseEntity<String>> {
+    @GetMapping(VIEW_CART_MAPPING)
+    @PreAuthorize(BUYER_ROLE)
+    fun viewCart(@RequestParam("buyer_id") buyerId: UUID) =
+        ResponseEntity.ok(cartService.fetchCartById(buyerId))
 
-        return cartService.removeProductFromCart(buyerId = buyerId, productId = productId)
-            .map { ResponseEntity.ok(it) }
-    }
+    @PostMapping(REMOVE_PRODUCT_FROM_CART_MAPPING)
+    @PreAuthorize(BUYER_ROLE)
+    fun removeProductFromCart(@PathVariable("product_id") productId: UUID): ResponseEntity<String> =
+        ResponseEntity.ok(cartService.removeProductFromCart(productId = productId))
 
-    @PostMapping(Mappings.CHECKOUT_MAPPING)
-    fun checkout(@PathVariable("buyer_id") buyerId: UUID): Mono<ResponseEntity<String>> {
-        return cartService.checkout(buyerId = buyerId)
-            .map { ResponseEntity.ok(it) }
-    }
-
+    @PostMapping(CHECKOUT_MAPPING)
+    @PreAuthorize(BUYER_ROLE)
+    fun checkout(@PathVariable("buyer_id") buyerId: UUID): ResponseEntity<String> =
+        ResponseEntity.ok(cartService.checkout(buyerId = buyerId))
 }
 
