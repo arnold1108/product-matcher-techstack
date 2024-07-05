@@ -4,7 +4,7 @@ import java.util.UUID
 
 class Queries {
     data class ViewCart(
-        val buyerId: UUID
+        val shopperId: UUID
     )
 
     data class FetchCartProductDetails(

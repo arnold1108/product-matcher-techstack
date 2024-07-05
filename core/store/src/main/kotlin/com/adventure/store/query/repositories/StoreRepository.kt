@@ -12,6 +12,7 @@ interface StoreRepository: CassandraRepository<Store, UUID> {
 
 @Repository
 interface ProductRepository: CassandraRepository<Product, UUID> {
+    fun findByStoreId(storeId: UUID): List<Product>
 }
 
 

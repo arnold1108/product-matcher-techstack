@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service
 class AccountQueryProcessor(private val accountRepository: AccountRepository) {
 
     @QueryHandler
-    fun answer(query: DoesAccountExist): Boolean {
-        return accountRepository.existsById(query.accountId)
-    }
+    fun answer(query: DoesAccountExist): Boolean = accountRepository.existsById(query.accountId)
+
 }

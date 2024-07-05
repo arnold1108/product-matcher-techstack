@@ -6,6 +6,8 @@ import java.util.*
 
 @Repository
 interface CartRepository: JpaRepository<CartEntity, UUID> {
+
+    fun<T> fetchByShopperId(shopperId: UUID): Optional<T>
 }
 
 @Repository

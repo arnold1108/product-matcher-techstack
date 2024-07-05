@@ -55,7 +55,7 @@ class CartService(
 
     @PostAuthorize(CART_BELONGS_TO_THE_AUTHENTICATED_USER)
     fun fetchCartById(buyerId: UUID): ViewCartQueryResult = query
-        .query(ViewCart(buyerId = buyerId), ViewCartQueryResult::class.java)
+        .query(ViewCart(shopperId = buyerId), ViewCartQueryResult::class.java)
         .get()
 
     fun removeProductFromCart(productId: UUID): String {
