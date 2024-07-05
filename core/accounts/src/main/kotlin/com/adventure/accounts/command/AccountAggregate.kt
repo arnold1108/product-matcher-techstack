@@ -20,6 +20,7 @@ class AccountAggregate() {
     @AggregateIdentifier
     private lateinit var accountId: UUID
     private lateinit var accountStatus: AccountStatus
+    private lateinit var accountRole: Role
     private lateinit var eventGateway: EventGateway
 
     @CommandHandler
@@ -27,6 +28,7 @@ class AccountAggregate() {
         eventGateway.publish(
             AccountCreated(
                 accountId = command.accountId,
+                accountStatus = ACTIVE,
                 firstName = command.firstName,
                 lastName = command.lastName,
                 dateOfBirth = command.dateOfBirth,
@@ -42,6 +44,7 @@ class AccountAggregate() {
     fun handle(event: AccountCreated){
         accountId = event.accountId
         accountStatus = ACTIVE
+        accountRole =  event.role
     }
 
     @CommandHandler
@@ -49,7 +52,8 @@ class AccountAggregate() {
         if (accountStatus == ACTIVE) {
             eventGateway.publish(
                 AccountSuspended(
-                    accountId = command.accountId
+                    accountId = command.accountId,
+                    accountRole = accountRole
                 )
             )
         }

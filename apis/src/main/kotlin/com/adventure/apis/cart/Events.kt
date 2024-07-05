@@ -22,7 +22,8 @@ class Events {
         val cartItem: List<CartItem>,
         val totalPrice: Double
     )
-    data class CheckingOutCart(
-        val shopperId: UUID
+    data class CartCheckedOut(
+        val shopperId: UUID,
+        val cartItems: MutableSet<UUID>
     )
 }

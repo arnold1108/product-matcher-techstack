@@ -18,7 +18,7 @@ class CartAggregate() {
     private lateinit var cartStatus: CartStatus
     private var cartItems: Int = 0
     private var totalAmount: Double = 0.00
-
+    private var productItems: MutableSet<UUID> = mutableSetOf()
     private lateinit var eventGateway: EventGateway
 
     @CommandHandler
@@ -41,6 +41,7 @@ class CartAggregate() {
         cartItems + 1
         val totalPrice = event.unitPrice * event.quantity
         totalAmount + totalPrice
+        productItems.add(event.productId)
     }
 
     @CommandHandler
@@ -66,8 +67,9 @@ class CartAggregate() {
     fun on (command: Checkout) {
         if (cartStatus == CREATED) {
             eventGateway.publish(
-                CheckingOutCart(
-                    shopperId = command.shopperId
+                CartCheckedOut(
+                    shopperId = command.shopperId,
+                    cartItems = productItems
                 )
             )
         }

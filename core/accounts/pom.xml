@@ -26,25 +26,6 @@
 		<junit-vintage.version>5.10.1</junit-vintage.version>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>akka-repository</id>
-			<name>Akka library repository</name>
-			<url>https://repo.akka.io/maven</url>
-		</repository>
-	</repositories>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.lightbend.akka</groupId>
-				<artifactId>akka-dependencies_2.13</artifactId>
-				<version>${akka-dependencies.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
@@ -79,11 +60,6 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-kotlin</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.typesafe.akka</groupId>
-			<artifactId>akka-actor-typed_${scala.binary.version}</artifactId>
 		</dependency>
 
 		<dependency>
