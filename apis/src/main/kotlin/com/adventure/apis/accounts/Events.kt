@@ -1,13 +1,12 @@
 package com.adventure.apis.accounts
 
 import com.adventure.apis.accounts.State.Role
-import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
-class Commands {
-    data class CreateAccount(
-        @TargetAggregateIdentifier
+class Events {
+    
+    data class AccountCreated(
         val accountId: UUID,
         val firstName: String,
         val lastName: String,
@@ -17,10 +16,7 @@ class Commands {
         val country: String,
         val role: Role
     )
-
-    data class SuspendAccount(
-        @TargetAggregateIdentifier
-        val accountId: UUID,
+    data class AccountSuspended(
+        val accountId: UUID
     )
-
 }

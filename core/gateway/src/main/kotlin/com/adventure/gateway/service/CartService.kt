@@ -1,9 +1,11 @@
 package com.adventure.gateway.service
 
 import com.adventure.apis.cart.Commands.*
+import com.adventure.apis.cart.Queries.FetchCartProductDetails
 import com.adventure.apis.cart.Queries.ViewCart
 import com.adventure.apis.cart.QueryResults.*
-import com.adventure.gateway.utils.Authorizations.BUYER_IS_THE_AUTHENTICATED_USER
+import com.adventure.apis.store.Queries.*
+import com.adventure.gateway.utils.Authorizations.SHOPPER_IS_THE_AUTHENTICATED_USER
 import com.adventure.gateway.utils.Authorizations.CART_BELONGS_TO_THE_AUTHENTICATED_USER
 import com.adventure.gateway.utils.SecurityUtils.extractPrincipalDetails
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -13,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.util.*
+import kotlin.NoSuchElementException
 
 @Service
 class CartService(
@@ -23,38 +26,61 @@ class CartService(
 
     fun addProductToCart(productId: UUID, quantity: Int): String {
         val principal = extractPrincipalDetails(authentication = authentication)
-        command.send<Void>(
-            AddProductToCart(
-                buyerId = principal.principalId,
-                productId = productId,
-                quantity = quantity
-            )
-        )
 
-        return "You have added $quantity products to cart"
+        val productExist = query.query(
+            DoesProductExist(productId = productId), Boolean::class.java
+        ).get()
+
+        if (!productExist) {
+            throw NoSuchElementException("Product out of stock!")
+        } else {
+
+            val productDetails = query.query(
+                FetchProductDetails(productId = productId), CartItem::class.java
+            ).get()
+
+            command.send<Void>(
+                AddProductToCart(
+                    shopperId = principal.principalId,
+                    productId = productId,
+                    productName = productDetails.productName,
+                    quantity = quantity,
+                    unitPrice = productDetails.price
+                )
+            )
+
+            return "You have added $quantity products to cart"
+        }
     }
 
     @PostAuthorize(CART_BELONGS_TO_THE_AUTHENTICATED_USER)
-    fun fetchCartById(buyerId: UUID): ViewCartQueryResult =
-        query.query(ViewCart(buyerId = buyerId), ViewCartQueryResult::class.java).get()
+    fun fetchCartById(buyerId: UUID): ViewCartQueryResult = query
+        .query(ViewCart(buyerId = buyerId), ViewCartQueryResult::class.java)
+        .get()
 
     fun removeProductFromCart(productId: UUID): String {
         val principal = extractPrincipalDetails(authentication = authentication)
+
+        val cartProduct = query
+            .query(FetchCartProductDetails(productId = productId), CartProductDetails::class.java)
+            .get()
         command.send<Void>(
             RemoveProductFromCart(
                 productId = productId,
-                buyerId = principal.principalId
+                shopperId = principal.principalId,
+                quantity = cartProduct.quantity,
+                unitPrice = cartProduct.productPrice
             )
         )
 
         return "Product removed from Cart"
     }
 
-    @PreAuthorize(BUYER_IS_THE_AUTHENTICATED_USER)
-    fun checkout(buyerId: UUID): String {
+    @PreAuthorize(SHOPPER_IS_THE_AUTHENTICATED_USER)
+    fun checkout(shopperId: UUID): String {
         command.send<Void>(
             Checkout(
-                buyerId = buyerId
+                shopperId = shopperId
             )
         )
 

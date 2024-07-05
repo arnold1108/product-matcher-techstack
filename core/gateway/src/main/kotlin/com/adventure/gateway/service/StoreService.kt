@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PostAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.util.*
+import kotlin.NoSuchElementException
 
 @Service
 class StoreService(
@@ -48,7 +49,6 @@ class StoreService(
                 productDescription = request.productDescription,
                 price = request.price,
                 remainingQuantity = request.quantity,
-                likes = request.likes,
                 timeAdded = request.timeAdded
             )
         )
@@ -62,6 +62,32 @@ class StoreService(
             ManageStoreQuery(storeId = storeId),
             ManageStoreProjection::class.java
         ).awaitLast()
+    }
+
+    fun closeStore(storeId: UUID): String {
+        val exist = query.query(
+            DoesStoreExist(storeId = storeId), Boolean::class.java
+        ).get()
+
+        if (exist) {
+            command.send<Void>(CloseStore(storeId = storeId))
+            return "Store Closed"
+        } else {
+            throw NoSuchElementException("Store Not Found")
+        }
+    }
+
+    fun reOpenStore(storeId: UUID): String {
+        val exist = query.query(
+            DoesStoreExist(storeId = storeId), Boolean::class.java
+        ).get()
+
+        if (exist) {
+            command.send<Void>(ReOpenStore(storeId = storeId))
+            return "Store ReOpened"
+        } else {
+            throw NoSuchElementException("Store Not Found")
+        }
     }
 
     fun getNotification() {

@@ -7,7 +7,7 @@ import io.cucumber.datatable.DataTable
 import io.cucumber.java.en.When
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.And
-import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway
+import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.Assertions.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -25,7 +25,7 @@ class AccountManagement {
     @Autowired
     private lateinit var webTestClient: WebTestClient
     @MockBean
-    private lateinit var commandGateway: ReactorCommandGateway
+    private lateinit var commandGateway: CommandGateway
     private var createAccountRequest: CompleteSignupRequest? = null
     private lateinit var response: EntityExchangeResult<String>
 

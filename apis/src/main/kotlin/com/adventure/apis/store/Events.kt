@@ -1,21 +1,18 @@
 package com.adventure.apis.store
 
 import com.adventure.apis.store.State.StoreCategory
-import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
-class Commands {
-    data class CreateStore(
-        @TargetAggregateIdentifier
+class Events {
+    data class StoreCreated(
         val storeId: UUID,
         val sellerId: UUID,
         val category: StoreCategory,
         val storeName: String,
     )
 
-    data class AddStock(
-        @TargetAggregateIdentifier
+    data class StockAdded(
         val storeId: UUID,
         val sellerId: UUID,
         val productId: UUID,
@@ -26,7 +23,7 @@ class Commands {
         val remainingQuantity: Int,
         val timeAdded: LocalDateTime
     )
-    data class CloseStore(@TargetAggregateIdentifier val storeId: UUID)
-
-    data class ReOpenStore(@TargetAggregateIdentifier val storeId: UUID)
+    data class ProductLiked(val productId: UUID)
+    data class StoreClosed(val storeId: UUID)
+    data class StoreReOpened(val storeId: UUID)
 }

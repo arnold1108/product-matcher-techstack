@@ -1,13 +1,18 @@
 package com.adventure.gateway.service
 
-import com.adventure.apis.marketplace.Commands.LikeProduct
 import com.adventure.apis.marketplace.QueryResults.ExploreProductsProjection
-import com.adventure.gateway.utils.SecurityUtils.extractPrincipalDetails
-import org.axonframework.commandhandling.gateway.CommandGateway
+import com.adventure.apis.store.Events.ProductLiked
+import com.adventure.apis.store.Queries.DoesProductExist
+import org.axonframework.eventhandling.gateway.EventGateway
+import org.axonframework.queryhandling.QueryGateway
 import org.springframework.security.core.context.SecurityContextHolder
 import java.util.*
+import kotlin.NoSuchElementException
 
-class ExploreService(private val commandGateway: CommandGateway) {
+class ExploreService(
+    private val eventGateway: EventGateway,
+    private val queryGateway: QueryGateway
+) {
     private val authentication = SecurityContextHolder.getContext().authentication
 
     fun getRecommendedProducts(buyerId: UUID): ExploreProductsProjection {
@@ -15,14 +20,20 @@ class ExploreService(private val commandGateway: CommandGateway) {
     }
 
     fun likeProduct(productId: UUID): String {
-        val principal = extractPrincipalDetails(authentication = authentication)
-        commandGateway.send<Void>(
-            LikeProduct(
-                buyerId = principal.principalId,
-                productId = productId
-            )
-        )
+        val productExist = queryGateway.query(
+            DoesProductExist(productId = productId), Boolean::class.java
+        ).get()
 
-        return "Product Liked!"
+        if (productExist) {
+
+            eventGateway.publish(
+                ProductLiked(productId = productId)
+            )
+
+            return "Product Liked!"
+        } else {
+            throw NoSuchElementException("Product Out of Stock")
+        }
+
     }
 }

@@ -6,4 +6,8 @@ class Queries {
     data class ViewCart(
         val buyerId: UUID
     )
+
+    data class FetchCartProductDetails(
+        val productId: UUID
+    )
 }

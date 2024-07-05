@@ -16,4 +16,9 @@ class QueryResults {
         val price: Double
     )
 
+    data class CartProductDetails(
+        val productName: String,
+        val quantity: Int,
+        val productPrice: Double
+    )
 }

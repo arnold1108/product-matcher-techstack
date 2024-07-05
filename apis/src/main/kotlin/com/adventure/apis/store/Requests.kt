@@ -2,6 +2,7 @@ package com.adventure.apis.store
 
 import com.adventure.apis.store.State.StoreCategory
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.LocalDateTime
 
 class Requests {
     data class CreateStoreRequest(
@@ -22,10 +23,8 @@ class Requests {
         val quantity: Int,
         @JsonProperty("price")
         val price: Double,
-        @JsonProperty("likes")
-        val likes: Int,
         @JsonProperty("time_added")
-        val timeAdded: String
+        val timeAdded: LocalDateTime
 
     )
 }

@@ -5,8 +5,10 @@ import com.adventure.apis.store.Requests.*
 import com.adventure.gateway.service.StoreService
 import com.adventure.gateway.utils.Authorizations.SELLER_ROLE
 import com.adventure.gateway.utils.Mappings.ADD_STOCK_MAPPING
+import com.adventure.gateway.utils.Mappings.CLOSE_STORE_MAPPING
 import com.adventure.gateway.utils.Mappings.CREATE_STORE_MAPPING
 import com.adventure.gateway.utils.Mappings.MANAGE_STORE_MAPPING
+import com.adventure.gateway.utils.Mappings.RE_OPEN_STORE_MAPPING
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -36,4 +38,14 @@ class Store(private val store: StoreService) {
     @PreAuthorize(SELLER_ROLE)
     suspend fun manageStore(@RequestParam("store_id") storeId: UUID): ResponseEntity<ManageStoreProjection> =
         ResponseEntity.ok(store.getStoreById(storeId = storeId))
+
+    @PostMapping(CLOSE_STORE_MAPPING)
+    @PreAuthorize(SELLER_ROLE)
+    fun closeStore(@RequestParam("store_id") storeId: UUID): ResponseEntity<String> =
+        ResponseEntity.ok(store.closeStore(storeId = storeId))
+
+    @PostMapping(RE_OPEN_STORE_MAPPING)
+    @PreAuthorize(SELLER_ROLE)
+    fun reOpenStore(@RequestParam("store_id") storeId: UUID): ResponseEntity<String> =
+        ResponseEntity.ok(store.reOpenStore(storeId = storeId))
 }

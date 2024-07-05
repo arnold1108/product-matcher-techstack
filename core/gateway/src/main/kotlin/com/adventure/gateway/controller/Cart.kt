@@ -20,8 +20,8 @@ class Cart(private val cartService: CartService) {
 
     @GetMapping(VIEW_CART_MAPPING)
     @PreAuthorize(BUYER_ROLE)
-    fun viewCart(@RequestParam("buyer_id") buyerId: UUID) =
-        ResponseEntity.ok(cartService.fetchCartById(buyerId))
+    fun viewCart(@RequestParam("shopper_id") shopperId: UUID) =
+        ResponseEntity.ok(cartService.fetchCartById(shopperId))
 
     @PostMapping(REMOVE_PRODUCT_FROM_CART_MAPPING)
     @PreAuthorize(BUYER_ROLE)
@@ -30,7 +30,7 @@ class Cart(private val cartService: CartService) {
 
     @PostMapping(CHECKOUT_MAPPING)
     @PreAuthorize(BUYER_ROLE)
-    fun checkout(@RequestParam("buyer_id") buyerId: UUID): ResponseEntity<String> =
-        ResponseEntity.ok(cartService.checkout(buyerId = buyerId))
+    fun checkout(@RequestParam("shopper_id") shopperId: UUID): ResponseEntity<String> =
+        ResponseEntity.ok(cartService.checkout(shopperId = shopperId))
 }
 

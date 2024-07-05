@@ -1,18 +1,26 @@
 package com.adventure.apis.cart
 
+import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.util.UUID
 
 class Commands {
     data class AddProductToCart(
-        val buyerId: UUID,
+        @TargetAggregateIdentifier
+        val shopperId: UUID,
         val productId: UUID,
-        val quantity: Int
+        val productName: String,
+        val quantity: Int,
+        val unitPrice: Double
     )
     data class RemoveProductFromCart(
-        val buyerId: UUID,
-        val productId: UUID
+        @TargetAggregateIdentifier
+        val shopperId: UUID,
+        val productId: UUID,
+        val quantity: Int,
+        val unitPrice: Double
     )
     data class Checkout(
-        val buyerId: UUID
+        @TargetAggregateIdentifier
+        val shopperId: UUID
     )
 }

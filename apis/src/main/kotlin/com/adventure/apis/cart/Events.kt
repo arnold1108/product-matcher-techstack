@@ -5,17 +5,24 @@ import java.util.*
 
 class Events {
     data class ProductAddedToCart(
-        val buyerId: UUID,
+        val shopperId: UUID,
         val productId: UUID,
-        val quantity: Int
+        val productName: String,
+        val quantity: Int,
+        val unitPrice: Double
         )
     data class ProductRemovedFromCart(
-        val buyerId: UUID,
-        val productId: UUID
+        val shopperId: UUID,
+        val productId: UUID,
+        val quantity: Int,
+        val unitPrice: Double
     )
     data class CheckedOut(
         val buyerId: UUID,
         val cartItem: List<CartItem>,
         val totalPrice: Double
+    )
+    data class CheckingOutCart(
+        val shopperId: UUID
     )
 }

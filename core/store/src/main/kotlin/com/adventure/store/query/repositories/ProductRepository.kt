@@ -1,7 +1,7 @@
-package com.adventure.store.repositories
+package com.adventure.store.query.repositories
 
 import com.adventure.apis.store.Commands.*
-import com.adventure.store.entities.Product
+import com.adventure.store.query.entities.Product
 import org.springframework.data.cassandra.repository.Query
 import org.springframework.data.repository.CrudRepository
 import reactor.core.publisher.Mono

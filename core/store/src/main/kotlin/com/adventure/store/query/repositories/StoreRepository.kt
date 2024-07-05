@@ -1,8 +1,8 @@
-package com.adventure.store.repositories
+package com.adventure.store.query.repositories
 
 import com.adventure.apis.store.Commands.CreateStore
 import com.adventure.apis.store.QueryResults.ManageStoreQueryResults
-import com.adventure.store.entities.Store
+import com.adventure.store.query.entities.Store
 import org.slf4j.LoggerFactory
 import org.springframework.data.cassandra.repository.Query
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository

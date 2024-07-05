@@ -11,4 +11,17 @@ class State {
         BUYER("Buyer"),
         SELLER("Seller"),
     }
+
+    enum class AccountStatus(val value: String) {
+        ACTIVE("ACTIVE"),
+        INACTIVE("INACTIVE"),
+        SUSPENDED("SUSPENDED");
+
+        fun canTransitionTo(status: AccountStatus): Boolean =
+            when(this) {
+                ACTIVE -> setOf(INACTIVE, SUSPENDED).contains(status)
+                INACTIVE -> setOf(ACTIVE).contains(status)
+                SUSPENDED -> setOf(ACTIVE).contains(status)
+            }
+    }
 }

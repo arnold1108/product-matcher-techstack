@@ -1,4 +1,4 @@
-package com.adventure.store.entities
+package com.adventure.store.query.entities
 
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.Table

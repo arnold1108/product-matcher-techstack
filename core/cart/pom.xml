@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>com.adventure</groupId>
 			<artifactId>apis</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.axonframework</groupId>
@@ -35,11 +35,6 @@
 					<artifactId>grpc-netty</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.axonframework.extensions.reactor</groupId>
-			<artifactId>axon-reactor-spring-boot-starter</artifactId>
-			<version>${axon-base.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
