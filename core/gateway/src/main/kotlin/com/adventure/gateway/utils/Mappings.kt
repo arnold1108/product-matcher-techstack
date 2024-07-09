@@ -9,13 +9,13 @@ object Mappings {
     const val CLOSE_STORE_MAPPING = "/stores/close"
     const val RE_OPEN_STORE_MAPPING = "/stores/reOpen"
 
-    const val EXPLORE_PRODUCT_MAPPING = "$/products"
-    const val LIKE_PRODUCT_MAPPING = "$/products/like"
-    const val ADD_PRODUCT_TO_CART_MAPPING = "$/carts/add/"
+    const val EXPLORE_PRODUCT_MAPPING = "/products"
+    const val LIKE_PRODUCT_MAPPING = "/products/like"
+    const val ADD_PRODUCT_TO_CART_MAPPING = "/carts/add"
 
     const val VIEW_CART_MAPPING = "/carts"
-    const val REMOVE_PRODUCT_FROM_CART_MAPPING = "/{buyer_id}/carts/remove/{product_id}"
-    const val CHECKOUT_MAPPING = "/{buyer_id}/carts/checkout"
+    const val REMOVE_PRODUCT_FROM_CART_MAPPING = "/carts/remove"
+    const val CHECKOUT_MAPPING = "/carts/checkout"
 
 }
 

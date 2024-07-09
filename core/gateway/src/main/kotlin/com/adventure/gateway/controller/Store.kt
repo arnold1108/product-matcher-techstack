@@ -10,7 +10,7 @@ import com.adventure.gateway.utils.Mappings.CREATE_STORE_MAPPING
 import com.adventure.gateway.utils.Mappings.MANAGE_STORE_MAPPING
 import com.adventure.gateway.utils.Mappings.RE_OPEN_STORE_MAPPING
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
+//import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -22,12 +22,12 @@ import java.util.*
 class Store(private val store: StoreService) {
 
     @PostMapping(CREATE_STORE_MAPPING)
-    @PreAuthorize(SELLER_ROLE)
+//    @PreAuthorize(SELLER_ROLE)
     fun createStore(@RequestBody request: CreateStoreRequest): ResponseEntity<String> =
         ResponseEntity.ok(store.addStore(request = request))
 
     @PostMapping(ADD_STOCK_MAPPING)
-    @PreAuthorize(SELLER_ROLE)
+//    @PreAuthorize(SELLER_ROLE)
     fun addStock(
         @RequestParam("store_id") storeId: UUID,
         @RequestBody request: AddStockRequest
@@ -35,17 +35,17 @@ class Store(private val store: StoreService) {
         ResponseEntity.ok(store.addStock(request = request, storeId = storeId))
 
     @GetMapping(MANAGE_STORE_MAPPING)
-    @PreAuthorize(SELLER_ROLE)
+//    @PreAuthorize(SELLER_ROLE)
     suspend fun manageStore(@RequestParam("store_id") storeId: UUID): ResponseEntity<ManageStoreProjection> =
         ResponseEntity.ok(store.getStoreById(storeId = storeId))
 
     @PostMapping(CLOSE_STORE_MAPPING)
-    @PreAuthorize(SELLER_ROLE)
+//    @PreAuthorize(SELLER_ROLE)
     fun closeStore(@RequestParam("store_id") storeId: UUID): ResponseEntity<String> =
         ResponseEntity.ok(store.closeStore(storeId = storeId))
 
     @PostMapping(RE_OPEN_STORE_MAPPING)
-    @PreAuthorize(SELLER_ROLE)
+//    @PreAuthorize(SELLER_ROLE)
     fun reOpenStore(@RequestParam("store_id") storeId: UUID): ResponseEntity<String> =
         ResponseEntity.ok(store.reOpenStore(storeId = storeId))
 }

@@ -7,12 +7,12 @@ import com.adventure.apis.cart.QueryResults.*
 import com.adventure.apis.store.Queries.*
 import com.adventure.gateway.utils.Authorizations.SHOPPER_IS_THE_AUTHENTICATED_USER
 import com.adventure.gateway.utils.Authorizations.CART_BELONGS_TO_THE_AUTHENTICATED_USER
-import com.adventure.gateway.utils.SecurityUtils.extractPrincipalDetails
+//import com.adventure.gateway.utils.SecurityUtils.extractPrincipalDetails
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.queryhandling.QueryGateway
-import org.springframework.security.access.prepost.PostAuthorize
-import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.security.core.context.SecurityContextHolder
+//import org.springframework.security.access.prepost.PostAuthorize
+//import org.springframework.security.access.prepost.PreAuthorize
+//import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.NoSuchElementException
@@ -22,67 +22,87 @@ class CartService(
     private val query: QueryGateway,
     private val command: CommandGateway
 ) {
-    private val authentication = SecurityContextHolder.getContext().authentication
+//    private val authentication = SecurityContextHolder.getContext().authentication
 
     fun addProductToCart(productId: UUID, quantity: Int): String {
-        val principal = extractPrincipalDetails(authentication = authentication)
-
-        val productExist = query.query(
-            DoesProductExist(productId = productId), Boolean::class.java
-        ).get()
-
-        if (!productExist) {
-            throw NoSuchElementException("Product out of stock!")
-        } else {
-
-            val productDetails = query.query(
-                FetchProductDetails(productId = productId), CartItem::class.java
-            ).get()
-
-            command.send<Void>(
-                AddProductToCart(
-                    shopperId = principal.principalId,
-                    productId = productId,
-                    productName = productDetails.productName,
-                    quantity = quantity,
-                    unitPrice = productDetails.price
-                )
-            )
-
-            return "You have added $quantity products to cart"
-        }
+//        val principal = extractPrincipalDetails(authentication = authentication)
+//
+//        val productExist = query.query(
+//            DoesProductExist(productId = productId), Boolean::class.java
+//        ).get()
+//
+//        if (!productExist) {
+//            throw NoSuchElementException("Product out of stock!")
+//        } else {
+//
+//            val productDetails = query.query(
+//                FetchProductDetails(productId = productId), CartItem::class.java
+//            ).get()
+//
+//            command.send<Void>(
+//                AddProductToCart(
+//                    shopperId = principal.principalId,
+//                    productId = productId,
+//                    productName = productDetails.productName,
+//                    quantity = quantity,
+//                    unitPrice = productDetails.price
+//                )
+//            )
+//
+//            return "You have added $quantity products to cart"
+//        }
+        return "You have added $quantity products to cart"
     }
 
-    @PostAuthorize(CART_BELONGS_TO_THE_AUTHENTICATED_USER)
-    fun fetchCartById(buyerId: UUID): ViewCartQueryResult = query
-        .query(ViewCart(shopperId = buyerId), ViewCartQueryResult::class.java)
-        .get()
+//    @PostAuthorize(CART_BELONGS_TO_THE_AUTHENTICATED_USER)
+    fun fetchCartById(buyerId: UUID): ViewCartQueryResult =
+//        query.query(ViewCart(shopperId = buyerId), ViewCartQueryResult::class.java)
+//        .get()
+        ViewCartQueryResult(
+            buyerId = buyerId,
+            cartItems = listOf(
+                CartItem(
+                    productId = UUID.randomUUID(),
+                    productName = "Book",
+                    quantity = 3,
+                    price = 1200.00
+                ),
+                CartItem(
+                    productId = UUID.randomUUID(),
+                    productName = "Lighter",
+                    quantity = 1,
+                    price = 70.00
+                )
+            ),
+            totalItems = 4,
+            totalPrice = 1270.00
+        )
 
     fun removeProductFromCart(productId: UUID): String {
-        val principal = extractPrincipalDetails(authentication = authentication)
+//        val principal = extractPrincipalDetails(authentication = authentication)
 
-        val cartProduct = query
-            .query(FetchCartProductDetails(productId = productId), CartProductDetails::class.java)
-            .get()
-        command.send<Void>(
-            RemoveProductFromCart(
-                productId = productId,
-                shopperId = principal.principalId,
-                quantity = cartProduct.quantity,
-                unitPrice = cartProduct.productPrice
-            )
-        )
+//        val cartProduct = query
+//            .query(FetchCartProductDetails(productId = productId), CartProductDetails::class.java)
+//            .get()
+//        command.send<Void>(
+//            RemoveProductFromCart(
+//                productId = productId,
+//                shopperId = principal.principalId,
+//                quantity = cartProduct.quantity,
+//                unitPrice = cartProduct.productPrice
+//            )
+//        )
 
-        return "Product removed from Cart"
+        return "Product $productId removed from Cart"
     }
 
-    @PreAuthorize(SHOPPER_IS_THE_AUTHENTICATED_USER)
+//    @PreAuthorize(SHOPPER_IS_THE_AUTHENTICATED_USER)
     fun checkout(shopperId: UUID): String {
-        command.send<Void>(
-            Checkout(
-                shopperId = shopperId
-            )
-        )
+//        command.send<Void>(
+//            Checkout(
+//                shopperId = shopperId
+//            )
+//        )
 
         return "Enjoy!"
     }
