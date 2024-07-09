@@ -1,90 +1,75 @@
 import sys
 import os
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import requests
 import uuid
 import logging
+
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 base_url = "http://localhost:8080"
 
 
-def add_product_to_cart(product_id: str, quantity: int):
-    url = f"{base_url}/carts/add"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    params = {
-        "product_id": product_id,
-        "quantity": quantity
-    }
+class ShoppingCart:
+    def __init__(self, base_url: str):
+        self.base_url = base_url
+        self.headers = {
+            "Content-Type": "application/json"
+        }
 
-    add_product_to_cart_response = requests.post(url=url, headers=headers, params=params)
+    def _send_post_request(self, endpoint: str, params: dict):
+        url = f"{self.base_url}{endpoint}"
+        response = requests.post(url=url, headers=self.headers, params=params)
+        self._log_response(response)
 
-    if add_product_to_cart_response.status_code == 200:
-        logger.info(add_product_to_cart_response.text)
-    else:
-        logger.info(add_product_to_cart_response.status_code, add_product_to_cart_response.text)
+    def _send_get_request(self, endpoint: str, params: dict):
+        url = f"{self.base_url}{endpoint}"
+        response = requests.get(url=url, headers=self.headers, params=params)
+        self._log_response(response)
 
+    def _log_response(self, response):
+        if response.status_code == 200:
+            logger.info(response.text)
+        else:
+            logger.error(f"Error {response.status_code}: {response.text}")
 
-def view_cart(shopper_id: str):
-    url = f"{base_url}/carts"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    params = {
-        "shopper_id": shopper_id
-    }
-    view_cart_response = requests.get(url=url, headers=headers, params=params)
+    def add_product_to_cart(self, product_id: str, quantity: int):
+        params = {
+            "product_id": product_id,
+            "quantity": quantity
+        }
+        self._send_post_request("/carts/add", params)
 
-    if view_cart_response.status_code == 200:
-        logger.info(view_cart_response.text)
-    else:
-        logger.info(view_cart_response.status_code, view_cart_response.text)
+    def view_cart(self, shopper_id: str):
+        params = {
+            "shopper_id": shopper_id
+        }
+        self._send_get_request("/carts", params)
 
+    def remove_product_from_cart(self, product_id: str):
+        params = {
+            "product_id": product_id
+        }
+        self._send_post_request("/carts/remove", params)
 
-def remove_product_from_cart(product_id: str):
-    url = f"{base_url}/carts/remove"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    params = {
-        "product_id": product_id
-    }
-    remove_product_from_cart_response = requests.post(url=url, headers=headers, params=params)
-
-    if remove_product_from_cart_response.status_code == 200:
-        logger.info(remove_product_from_cart_response.text)
-    else:
-        logger.info(remove_product_from_cart_response.status_code, remove_product_from_cart_response.text)
-
-
-def checkout(shopper_id: str):
-    url = f"{base_url}/carts/checkout"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    params = {
-        "shopper_id": shopper_id
-    }
-    checkout_response = requests.post(url=url, headers=headers, params=params)
-
-    if checkout_response.status_code == 200:
-        logger.info(checkout_response.text)
-    else:
-        logger.info(checkout_response.status_code, checkout_response.text)
+    def checkout(self, shopper_id: str):
+        params = {
+            "shopper_id": shopper_id
+        }
+        self._send_post_request("/carts/checkout", params)
 
 
 def main():
+    cart = ShoppingCart(base_url=base_url)
     store_id = str(uuid.uuid4())
     logger.info(f"Using store_id :: {store_id}")
 
-    add_product_to_cart(product_id=store_id, quantity=3)
-    view_cart(shopper_id=store_id)
-    remove_product_from_cart(product_id=store_id)
-    checkout(shopper_id=store_id)
+    cart.add_product_to_cart(product_id=store_id, quantity=3)
+    cart.view_cart(shopper_id=store_id)
+    cart.remove_product_from_cart(product_id=store_id)
+    cart.checkout(shopper_id=store_id)
 
 
 if __name__ == "__main__":

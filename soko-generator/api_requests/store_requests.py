@@ -1,9 +1,9 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-import requests
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from models.store import CreateStoreRequest, AddStockRequest
+import requests
 import uuid
 import logging
 
@@ -12,89 +12,70 @@ logger = logging.getLogger(__name__)
 base_url = "http://localhost:8080"
 
 
-def create_store(create_store_request: CreateStoreRequest):
-    url = f"{base_url}/stores/create"
-    headers = {
-        "Content-Type": "application/json"
-    }
+class StoreManager:
+    def __init__(self, base_url: str):
+        self.base_url = base_url
+        self.headers = {
+            "Content-Type": "application/json"
+        }
 
-    create_store_response = requests.post(url=url, headers=headers)
+    def _send_post_request(self, endpoint: str, params: dict = None):
+        url = f"{self.base_url}{endpoint}"
+        response = requests.post(url=url, headers=self.headers, params=params)
+        self._log_response(response)
 
-    if create_store_response.status_code == 200:
-        logger.info(create_store_response.text)
-    else:
-        logger.info(create_store_response.status_code, create_store_response.text)
+    def _send_get_request(self, endpoint: str, params: dict = None):
+        url = f"{self.base_url}{endpoint}"
+        response = requests.get(url=url, headers=self.headers, params=params)
+        self._log_response(response)
 
+    def _log_response(self, response):
+        if response.status_code == 200:
+            logger.info(response.text)
+        else:
+            logger.error(f"Error {response.status_code}: {response.text}")
 
-def add_stock(add_stock_request: AddStockRequest, store_id: str):
-    url = f"{base_url}/stores/stock/add"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    params = {
-        "store_id": store_id
-    }
-    add_stock_response = requests.post(url=url, headers=headers, params=params)
+    def create_store(self, create_store_request: CreateStoreRequest):
+        endpoint = "/stores/create"
+        self._send_post_request(endpoint)
 
-    if add_stock_response.status_code == 200:
-        logger.info(add_stock_response.text)
-    else:
-        logger.info(add_stock_response.status_code, add_stock_response.text)
+    def add_stock(self, add_stock_request: AddStockRequest, store_id: str):
+        endpoint = "/stores/stock/add"
+        params = {
+            "store_id": store_id
+        }
+        self._send_post_request(endpoint, params=params)
 
+    def close_store(self, store_id: str):
+        endpoint = "/stores/close"
+        params = {
+            "store_id": store_id
+        }
+        self._send_post_request(endpoint, params=params)
 
-def close_store(store_id: str):
-    url = f"{base_url}/stores/close"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    params = {
-        "store_id": store_id
-    }
-    close_store_response = requests.post(url=url, headers=headers, params=params)
-    if close_store_response.status_code == 200:
-        logger.info(close_store_response.text)
-    else:
-        logger.info(close_store_response.status_code, close_store_response.text)
+    def reopen_store(self, store_id: str):
+        endpoint = "/stores/reOpen"
+        params = {
+            "store_id": store_id
+        }
+        self._send_post_request(endpoint, params=params)
 
-
-def reopen_store(store_id: str):
-    url = f"{base_url}/stores/reOpen"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    params = {
-        "store_id": store_id
-    }
-    reopen_store_response = requests.post(url=url, headers=headers, params=params)
-    if reopen_store_response.status_code == 200:
-        logger.info(reopen_store_response.text)
-    else:
-        logger.info(reopen_store_response.status_code, reopen_store_response.text)
-
-
-def manage_store(store_id: str):
-    url = f"{base_url}/stores/manage"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    params = {
-        "store_id": store_id
-    }
-    manage_store_response = requests.get(url, headers=headers, params=params)
-
-    if manage_store_response.status_code == 200:
-        logger.info(manage_store_response.json())
-    else:
-        logger.info(manage_store_response.status_code, manage_store_response.text)
+    def manage_store(self, store_id: str):
+        endpoint = "/stores/manage"
+        params = {
+            "store_id": store_id
+        }
+        self._send_get_request(endpoint, params=params)
 
 
 def main():
+    store_manager = StoreManager(base_url=base_url)
     store_id = str(uuid.uuid4())
     logger.info(f"Using store_id :: {store_id}")
 
-    manage_store(store_id=store_id)
-    reopen_store(store_id=store_id)
-    close_store(store_id=store_id)
+    store_manager.manage_store(store_id=store_id)
+    store_manager.reopen_store(store_id=store_id)
+    store_manager.close_store(store_id=store_id)
 
 
 if __name__ == "__main__":
