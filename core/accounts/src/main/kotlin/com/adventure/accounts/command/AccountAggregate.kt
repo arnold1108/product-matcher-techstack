@@ -11,7 +11,9 @@ import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventhandling.gateway.EventGateway
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
+import org.axonframework.modelling.command.AggregateLifecycle
 import org.axonframework.spring.stereotype.Aggregate
+import org.slf4j.LoggerFactory
 import java.util.UUID
 
 @Aggregate
@@ -22,10 +24,13 @@ class AccountAggregate() {
     private lateinit var accountStatus: AccountStatus
     private lateinit var accountRole: Role
     private lateinit var eventGateway: EventGateway
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
     @CommandHandler
     constructor(command: CreateAccount): this() {
-        eventGateway.publish(
+        logger.info("Handling command $command")
+
+        AggregateLifecycle.apply(
             AccountCreated(
                 accountId = command.accountId,
                 accountStatus = ACTIVE,
@@ -42,6 +47,7 @@ class AccountAggregate() {
 
     @EventSourcingHandler
     fun handle(event: AccountCreated){
+        logger.info("Updated account status to $accountStatus")
         accountId = event.accountId
         accountStatus = ACTIVE
         accountRole =  event.role
@@ -53,7 +59,7 @@ class AccountAggregate() {
             eventGateway.publish(
                 AccountSuspended(
                     accountId = command.accountId,
-                    accountRole = accountRole
+                    accountStatus = accountStatus
                 )
             )
         }

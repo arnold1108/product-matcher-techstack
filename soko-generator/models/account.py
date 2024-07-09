@@ -7,7 +7,7 @@ from enum import Enum
 class CompleteSignupRequest:
     first_name: str
     last_name: str
-    date_of_birth: datetime
+    date_of_birth: str
     gender: str
     country: str
 

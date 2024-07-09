@@ -6,9 +6,9 @@ spring:
   codec:
     max-in-memory-size: 3MB
   datasource:
-    password: opiyo123
-    username: adventure
-    url: jdbc:postgresql://localhost:5432/product_matcher
+    url: jdbc:postgresql://localhost:55000/test
+    username: test
+    password: test
   jpa:
     hibernate:
       ddl-auto: update
