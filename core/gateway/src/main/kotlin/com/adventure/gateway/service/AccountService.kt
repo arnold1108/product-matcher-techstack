@@ -26,38 +26,28 @@ class AccountService(
     fun registerAccount(request: CompleteSignupRequest): String {
         try {
             val principalId = UUID.randomUUID()
-            logger.info("Handling request for principal $principalId")
-
-            commandGateway.send<String>(
-                CreateAccount(
-                    accountId = principalId,
-                    firstName = request.firstName,
-                    lastName = request.lastName,
-                    dateOfBirth = LocalDateTime.now(),
-                    email = "principal.emailAddress@gmail.com",
-                    gender = request.gender,
-                    country = request.country,
-                    role = SELLER
-                )
+            val command = CreateAccount(
+                accountId = principalId,
+                firstName = request.firstName,
+                lastName = request.lastName,
+//                    dateOfBirth = LocalDateTime.now(),
+                email = "principal.emailAddress@gmail.com",
+                gender = request.gender,
+                country = request.country,
+                role = SELLER
             )
+            logger.info("Handling request for principal $principalId")
+            logger.info("Handling command ::  $command")
+
+            commandGateway.send<String>(command)
 
             return "Dear ${request.firstName}, Welcome to Soko!"
         } catch (ex: Exception) {
-            // Log the exception for debugging purposes
             logger.error("Error registering account for ${request.firstName}", ex)
-
-            // Wrap the exception in CommandExecutionException with custom message
-            throw CommandExecutionException(
-                "Failed to register account for ${request.firstName}",
-                ex
-            )
+            throw CommandExecutionException("Failed to register account for ${request.firstName}", ex)
         }
     }
 
-    @CommandHandler
-    fun on(command: CreateAccount) {
-        logger.info("$command")
-    }
 
     fun accountExists(accountId: UUID): Boolean {
 //        return queryGateway.query(

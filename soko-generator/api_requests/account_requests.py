@@ -21,7 +21,7 @@ def generate_fake_signup_request() -> CompleteSignupRequest:
     return CompleteSignupRequest(
         first_name=fake.first_name(),
         last_name=fake.last_name(),
-        date_of_birth=datetime.now().isoformat(),
+        # date_of_birth=datetime.now().isoformat(),
         gender=Gender.MALE,
         country=fake.country()
     )

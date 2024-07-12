@@ -23,7 +23,7 @@ class AccountEventProcessor(private val accountRepository: AccountRepository){
             accountRole = State.Role.BUYER,
             firstName = event.firstName,
             lastName = event.lastName,
-            dateOfBirth = event.dateOfBirth,
+//            dateOfBirth = event.dateOfBirth,
             email = event.email,
             gender = event.gender,
             country = event.country

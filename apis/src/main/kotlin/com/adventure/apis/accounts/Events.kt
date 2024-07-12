@@ -12,7 +12,7 @@ class Events {
         val accountId: UUID,
         val firstName: String,
         val lastName: String,
-        val dateOfBirth: LocalDateTime,
+//        val dateOfBirth: LocalDateTime,
         val accountStatus: AccountStatus,
         val email: String,
         val gender: String,
