@@ -5,7 +5,8 @@ import com.adventure.apis.accounts.Commands.SuspendAccount
 import com.adventure.apis.accounts.Events.AccountCreated
 import com.adventure.apis.accounts.Events.AccountSuspended
 import com.adventure.apis.accounts.State.*
-import com.adventure.apis.accounts.State.AccountStatus.*
+import com.adventure.apis.accounts.State.AccountStatus.ACTIVE
+import com.adventure.apis.accounts.State.AccountStatus.SUSPENDED
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventhandling.gateway.EventGateway
 import org.axonframework.eventsourcing.EventSourcingHandler
@@ -20,41 +21,42 @@ class AccountAggregate() {
 
     @AggregateIdentifier
     private lateinit var accountId: UUID
-    private var accountStatus: AccountStatus = INACTIVE
+     lateinit var accountStatus: AccountStatus
     private lateinit var accountRole: Role
+    private lateinit var eventGateway: EventGateway
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @CommandHandler
-    constructor(command: CreateAccount) : this() {
+    constructor(command: CreateAccount): this() {
         logger.info("Handling command $command")
-        val event = AccountCreated(
-            accountId = command.accountId,
-            accountStatus = ACTIVE,
-            firstName = command.firstName,
-            lastName = command.lastName,
-//                dateOfBirth = command.dateOfBirth,
-            email = command.email,
-            gender = command.gender,
-            country = command.country,
-            role = command.role
-        )
 
-        AggregateLifecycle.apply(event)
-        logger.info("Published event ::  $event")
+        AggregateLifecycle.apply(
+            AccountCreated(
+                accountId = command.accountId,
+                accountStatus = ACTIVE,
+                firstName = command.firstName,
+                lastName = command.lastName,
+//                dateOfBirth = command.dateOfBirth,
+                email = command.email,
+                gender = command.gender,
+                country = command.country,
+                role = command.role
+            )
+        )
     }
 
     @EventSourcingHandler
-    fun handle(event: AccountCreated) {
-        logger.info("Updated account status to $ACTIVE")
+    fun handle(event: AccountCreated){
+        logger.info("Updated account status to $accountStatus")
         accountId = event.accountId
         accountStatus = ACTIVE
-        accountRole = event.role
+        accountRole =  event.role
     }
 
     @CommandHandler
     fun on(command: SuspendAccount) {
         if (accountStatus == ACTIVE) {
-            AggregateLifecycle.apply(
+            eventGateway.publish(
                 AccountSuspended(
                     accountId = command.accountId,
                     accountStatus = accountStatus
@@ -64,7 +66,7 @@ class AccountAggregate() {
     }
 
     @EventSourcingHandler
-    fun handle(event: AccountSuspended) {
+    fun handle(event: AccountSuspended){
         accountId = event.accountId
         accountStatus = SUSPENDED
     }

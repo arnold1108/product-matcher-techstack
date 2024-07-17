@@ -1,21 +1,14 @@
 package com.adventure.gateway.service
 
 import com.adventure.apis.accounts.Commands.CreateAccount
-import com.adventure.apis.accounts.Queries.DoesAccountExist
-
-import com.adventure.apis.accounts.State
-import com.adventure.apis.accounts.State.Role.BUYER
 import com.adventure.apis.accounts.State.Role.SELLER
 import com.adventure.gateway.controller.CompleteSignupRequest
 import org.axonframework.commandhandling.CommandExecutionException
-import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.queryhandling.QueryGateway
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 import java.util.*
-import javax.security.auth.login.AccountException
 
 @Service
 class AccountService(
@@ -44,7 +37,9 @@ class AccountService(
             return "Dear ${request.firstName}, Welcome to Soko!"
         } catch (ex: Exception) {
             logger.error("Error registering account for ${request.firstName}", ex)
-            throw CommandExecutionException("Failed to register account for ${request.firstName}", ex)
+            throw CommandExecutionException("Failed to register account for ${request.firstName}",
+                ex
+            )
         }
     }
 
