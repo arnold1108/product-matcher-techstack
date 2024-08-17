@@ -24,8 +24,8 @@ data class CompleteSignupRequest(
     val firstName: String,
     @field:JsonProperty("last_name")
     val lastName: String,
-//    @field:JsonProperty("date_of_birth")
-//    val dob: String,
+    @field:JsonProperty("date_of_birth")
+    val dob: String,
     @field:JsonProperty("gender")
     val gender: String,
     @field:JsonProperty("country")

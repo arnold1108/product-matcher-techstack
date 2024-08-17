@@ -24,6 +24,7 @@
 		<scala.binary.version>2.13</scala.binary.version>
 		<cucumber.project>7.15.0</cucumber.project>
 		<junit-vintage.version>5.10.1</junit-vintage.version>
+		<jackson.version>2.17.2</jackson.version>
 	</properties>
 
 
@@ -39,30 +40,31 @@
 			<artifactId>axon-spring-boot-starter</artifactId>
 			<version>${axon-starter.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.axonframework/axon-modelling -->
-<!--		<dependency>-->
-<!--			<groupId>org.axonframework</groupId>-->
-<!--			<artifactId>axon-modelling</artifactId>-->
-<!--			<version>${axon-starter.version}</version>-->
-<!--		</dependency>-->
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>org.axonframework</groupId>
+			<artifactId>axon-test</artifactId>
+			<version>${axon-starter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.axonframework.extensions.kotlin</groupId>
+			<artifactId>axon-kotlin</artifactId>
+			<version>${axon-base.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.17.2</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-<!--		<dependency>-->
-<!--			<groupId>com.fasterxml.jackson.core</groupId>-->
-<!--			<artifactId>jackson-core</artifactId>-->
-<!--			<version>2.17.2</version>-->
-<!--		</dependency>-->
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.17.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.glassfish.expressly</groupId>
 			<artifactId>expressly</artifactId>
@@ -110,35 +112,6 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-junit</artifactId>
-			<version>${cucumber.project}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-java</artifactId>
-			<version>${cucumber.project}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-spring</artifactId>
-			<version>${cucumber.project}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<version>${junit-vintage.version}</version>
-			<scope>test</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -153,6 +126,20 @@
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-test</artifactId>
 			<version>${kotlin.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Test Containers-->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>1.20.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>1.20.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

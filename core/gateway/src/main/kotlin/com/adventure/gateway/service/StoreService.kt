@@ -7,6 +7,7 @@ import com.adventure.apis.store.QueryResults.ManageStoreProjection
 import com.adventure.apis.store.QueryResults.ProductInfo
 import com.adventure.apis.store.Requests.AddStockRequest
 import com.adventure.apis.store.Requests.CreateStoreRequest
+import com.adventure.gateway.security.SecurityUtils.extractUserId
 import com.adventure.gateway.utils.Authorizations.STORE_BELONGS_TO_THE_AUTHENTICATED_USER
 //import com.adventure.gateway.utils.SecurityUtils.extractPrincipalDetails
 import kotlinx.coroutines.reactive.awaitLast
@@ -24,18 +25,17 @@ class StoreService(
     private val command: CommandGateway,
     private val query: QueryGateway
 ) {
-//    private val authentication = SecurityContextHolder.getContext().authentication
 
     fun addStore(request: CreateStoreRequest): String {
-//        val principal = extractPrincipalDetails(authentication = authentication)
-//        command.send<Void>(
-//            CreateStore(
-//                storeId = UUID.randomUUID(),
-//                sellerId = principal.principalId,
-//                category = request.category,
-//                storeName = request.storeName
-//            )
-//        )
+        val principal = extractUserId()
+        command.send<Void>(
+            CreateStore(
+                storeId = UUID.randomUUID(),
+                sellerId = principal,
+                category = request.category,
+                storeName = request.storeName
+            )
+        )
 
         return "${request.storeName} added "
     }

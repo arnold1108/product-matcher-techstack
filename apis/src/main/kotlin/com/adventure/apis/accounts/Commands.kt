@@ -12,7 +12,7 @@ class Commands {
         val accountId: UUID,
         val firstName: String,
         val lastName: String,
-//        val dateOfBirth: LocalDateTime,
+        val dateOfBirth: LocalDateTime,
         val email: String,
         val gender: String,
         val country: String,

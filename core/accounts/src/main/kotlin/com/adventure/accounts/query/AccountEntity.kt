@@ -29,7 +29,7 @@ class AccountEntity {
             accountRole: Role,
             firstName: String,
             lastName: String,
-//            dateOfBirth: LocalDateTime,
+            dateOfBirth: LocalDateTime,
             email: String,
             gender: String,
             country: String
@@ -40,7 +40,7 @@ class AccountEntity {
                 this.accountRole = accountRole
                 this.firstName = firstName
                 this.lastName = lastName
-//                this.dob = dateOfBirth
+                this.dob = dateOfBirth
                 this.email = email
                 this.gender = gender
                 this.country = country

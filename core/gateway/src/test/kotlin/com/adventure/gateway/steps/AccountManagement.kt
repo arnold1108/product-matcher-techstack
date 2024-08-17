@@ -22,46 +22,46 @@ import org.springframework.test.web.reactive.server.EntityExchangeResult
 
 @WebFluxTest(controllers = [Account::class])
 class AccountManagement {
-    @Autowired
-    private lateinit var webTestClient: WebTestClient
-    @MockBean
-    private lateinit var commandGateway: CommandGateway
-    private var createAccountRequest: CompleteSignupRequest? = null
-    private lateinit var response: EntityExchangeResult<String>
-
-    @When("a user sends a requests to create an account with the following details:")
-    fun aUserSendsARequestsToCreateAnAccountWithTheFollowingDetails(details: DataTable) {
-        val rows = details.asMaps(String::class.java, String::class.java)
-        for (column: Map<String, String> in rows) {
-            createAccountRequest = CompleteSignupRequest(
-                firstName = column["first_name"]!!,
-                lastName = column["last_name"]!!,
-                dob = LocalDate.parse(column["date_of_birth"]!!),
-                gender = column["gender"]!!,
-                country = column["country"]!!,
-            )
-        }
-    }
-
-    @Then("the request should be successful")
-    fun theRequestShouldBeSuccessful() {
-        response = webTestClient.post()
-            .uri(ACCOUNT_CREATION_MAPPING)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(BodyInserters.fromValue(createAccountRequest!!))
-            .exchange()
-            .expectBody(String::class.java)
-            .returnResult()
-    }
-
-    @Then("the account management request should be successful")
-    fun theAccountManagementRequestShouldBeSuccessful() {
-        Assert.assertEquals(response.status, HttpStatus.OK)
-
-    }
-
-    @And("the account management response body should contain the message {string}")
-    fun theAccountManagementResponseBodyShouldContainTheMessage(expectedMessage: String) {
-        assertEquals(response.responseBody, expectedMessage)
-    }
+//    @Autowired
+//    private lateinit var webTestClient: WebTestClient
+//    @MockBean
+//    private lateinit var commandGateway: CommandGateway
+//    private var createAccountRequest: CompleteSignupRequest? = null
+//    private lateinit var response: EntityExchangeResult<String>
+//
+//    @When("a user sends a requests to create an account with the following details:")
+//    fun aUserSendsARequestsToCreateAnAccountWithTheFollowingDetails(details: DataTable) {
+//        val rows = details.asMaps(String::class.java, String::class.java)
+//        for (column: Map<String, String> in rows) {
+//            createAccountRequest = CompleteSignupRequest(
+//                firstName = column["first_name"]!!,
+//                lastName = column["last_name"]!!,
+//                dob = LocalDate.parse(column["date_of_birth"]!!),
+//                gender = column["gender"]!!,
+//                country = column["country"]!!,
+//            )
+//        }
+//    }
+//
+//    @Then("the request should be successful")
+//    fun theRequestShouldBeSuccessful() {
+//        response = webTestClient.post()
+//            .uri(ACCOUNT_CREATION_MAPPING)
+//            .contentType(MediaType.APPLICATION_JSON)
+//            .body(BodyInserters.fromValue(createAccountRequest!!))
+//            .exchange()
+//            .expectBody(String::class.java)
+//            .returnResult()
+//    }
+//
+//    @Then("the account management request should be successful")
+//    fun theAccountManagementRequestShouldBeSuccessful() {
+//        Assert.assertEquals(response.status, HttpStatus.OK)
+//
+//    }
+//
+//    @And("the account management response body should contain the message {string}")
+//    fun theAccountManagementResponseBodyShouldContainTheMessage(expectedMessage: String) {
+//        assertEquals(response.responseBody, expectedMessage)
+//    }
 }

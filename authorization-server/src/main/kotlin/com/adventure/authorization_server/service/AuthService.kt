@@ -23,7 +23,7 @@ class AuthService(
     private val authenticationProvider: CustomAuthenticationProvider
 ) {
 
-    fun createUser(requestBody: SignupRequest): Authentication {
+    fun createUser(requestBody: SignupRequest): UsernamePasswordAuthenticationToken {
         val userExists = accountExists(emailAddress = requestBody.emailAddress)
 
         if (!userExists) {
@@ -36,13 +36,10 @@ class AuthService(
             )
 
             userRepository.save(user)
-            return authenticationProvider.authenticate(
-                UsernamePasswordAuthenticationToken(
-                    requestBody.emailAddress,
-                    requestBody.password
-                )
+            return UsernamePasswordAuthenticationToken(
+                requestBody.emailAddress,
+                requestBody.password
             )
-
         } else throw AccountException("An account with the provided credentials exists")
     }
 
@@ -65,7 +62,9 @@ class AuthService(
         if (passwordEncoder.matches(requestBody.oldPassword, user.password)) {
             user.updatePassword(requestBody.newPassword)
             userRepository.save(user)
-        } else {throw BadCredentialsException("Passwords do not match")}
+        } else {
+            throw BadCredentialsException("Passwords do not match")
+        }
 
         return "Password Updated successfully"
     }

@@ -1,0 +1,20 @@
+spring:
+  codec:
+    max-in-memory-size: 3MB
+#  cassandra:
+#    local-datacenter: ${LOCAL_DATA_CENTER}
+#    keyspace-name: "store_svc_test"
+#    schema-action: create_if_not_exists
+#    request:
+#      timeout: 10s
+#    connection:
+#      connect-timeout: 10s
+#      init-query-timeout: 10s
+
+axon:
+  axonserver:
+    servers: ${AXON_SERVER_ADDRESS}
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson

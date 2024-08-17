@@ -6,6 +6,7 @@ import com.adventure.apis.store.State.*
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventhandling.gateway.EventGateway
 import org.axonframework.eventsourcing.EventSourcingHandler
+import org.axonframework.extensions.kotlin.applyEvent
 import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.spring.stereotype.Aggregate
 import java.util.UUID
@@ -14,15 +15,15 @@ import java.util.UUID
 class StoreAggregate() {
 
     @AggregateIdentifier
-    private lateinit var storeId: UUID
-    private lateinit var storeStatus: StoreStatus
-    private var stockValue: Double = 0.00
+    lateinit var storeId: UUID
+    lateinit var storeStatus: StoreStatus
+    var stockValue: Double = 0.00
 
     private lateinit var eventGateway: EventGateway
 
     @CommandHandler
     constructor(command: CreateStore): this() {
-        eventGateway.publish(
+        applyEvent(
             StoreCreated(
                 storeId = command.storeId,
                 sellerId = command.sellerId,
@@ -41,7 +42,7 @@ class StoreAggregate() {
     @CommandHandler
     fun on(command: AddStock) {
         if (storeStatus  == StoreStatus.CREATED) {
-            eventGateway.publish(
+            applyEvent(
                 StockAdded(
                     storeId = command.storeId,
                     sellerId = command.sellerId,
@@ -67,7 +68,7 @@ class StoreAggregate() {
     @CommandHandler
     fun on(command: CloseStore) {
         if(storeStatus == StoreStatus.OPEN) {
-            eventGateway.publish(
+            applyEvent(
                 StoreClosed(storeId = command.storeId)
             )
         }
@@ -81,7 +82,7 @@ class StoreAggregate() {
     @CommandHandler
     fun on(command: ReOpenStore) {
         if (storeStatus == StoreStatus.CLOSED) {
-            eventGateway.publish(
+            applyEvent(
                 StoreReOpened(
                     storeId = command.storeId
                 )

@@ -56,27 +56,8 @@ class CartService(
 
 //    @PostAuthorize(CART_BELONGS_TO_THE_AUTHENTICATED_USER)
     fun fetchCartById(buyerId: UUID): ViewCartQueryResult =
-//        query.query(ViewCart(shopperId = buyerId), ViewCartQueryResult::class.java)
-//        .get()
-        ViewCartQueryResult(
-            buyerId = buyerId,
-            cartItems = listOf(
-                CartItem(
-                    productId = UUID.randomUUID(),
-                    productName = "Book",
-                    quantity = 3,
-                    price = 1200.00
-                ),
-                CartItem(
-                    productId = UUID.randomUUID(),
-                    productName = "Lighter",
-                    quantity = 1,
-                    price = 70.00
-                )
-            ),
-            totalItems = 4,
-            totalPrice = 1270.00
-        )
+        query.query(ViewCart(shopperId = buyerId), ViewCartQueryResult::class.java)
+        .get()
 
     fun removeProductFromCart(productId: UUID): String {
 //        val principal = extractPrincipalDetails(authentication = authentication)

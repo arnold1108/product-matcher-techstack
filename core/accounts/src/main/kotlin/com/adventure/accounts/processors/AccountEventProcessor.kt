@@ -16,20 +16,21 @@ class AccountEventProcessor(private val accountRepository: AccountRepository){
 
     @EventHandler
     fun handle(event: AccountCreated) {
-
+        logger.info("Handing event :: $event")
         val accountEntity = AccountEntity.newAccount(
             sellerId = event.accountId,
             accountStatus = event.accountStatus,
             accountRole = State.Role.BUYER,
             firstName = event.firstName,
             lastName = event.lastName,
-//            dateOfBirth = event.dateOfBirth,
+            dateOfBirth = event.dateOfBirth,
             email = event.email,
             gender = event.gender,
             country = event.country
         )
 
-        logger.info("Persisting entity $accountEntity")
+        logger.info("Persisting entity ${accountEntity.dob.year}")
+
         accountRepository.save(accountEntity)
     }
 

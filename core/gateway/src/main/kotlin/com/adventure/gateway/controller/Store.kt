@@ -3,14 +3,12 @@ package com.adventure.gateway.controller
 import com.adventure.apis.store.QueryResults.*
 import com.adventure.apis.store.Requests.*
 import com.adventure.gateway.service.StoreService
-import com.adventure.gateway.utils.Authorizations.SELLER_ROLE
 import com.adventure.gateway.utils.Mappings.ADD_STOCK_MAPPING
 import com.adventure.gateway.utils.Mappings.CLOSE_STORE_MAPPING
 import com.adventure.gateway.utils.Mappings.CREATE_STORE_MAPPING
 import com.adventure.gateway.utils.Mappings.MANAGE_STORE_MAPPING
 import com.adventure.gateway.utils.Mappings.RE_OPEN_STORE_MAPPING
 import org.springframework.http.ResponseEntity
-//import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

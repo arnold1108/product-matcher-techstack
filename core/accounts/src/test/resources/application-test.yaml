@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: ${POSTGRES_JDBC_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+
+axon:
+  axonserver:
+    servers: ${AXON_SERVER_ADDRESS}
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
